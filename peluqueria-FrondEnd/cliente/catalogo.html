@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peluquería - Catálogo de Servicios</title>
+  <link rel="stylesheet" href="../Librerias/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body class="bg-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Peluquería ADSO</a>
+      <div class="d-flex align-items-center">
+        <a href="./agendar.html" class="btn btn-outline-light btn-sm me-2">Agendar Cita</a>
+        <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="py-5 bg-white border-bottom text-center">
+    <div class="container">
+      <h1 class="fw-bold">Nuestros Cortes y Servicios</h1>
+      <p class="lead text-muted">Selecciona tu estilo preferido y agenda tu turno con nuestros barberos expertos.</p>
+    </div>
+  </header>
+
+  <main class="container my-5">
+    <div class="row g-4">
+      <!-- Tarjeta 1 (Con oferta) -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0 rounded-3">
+          <div class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-1 rounded-bl fw-bold">15% OFF</div>
+          <div class="card-body p-4 d-flex flex-column">
+            <h4 class="card-title fw-bold">Corte Clásico + Barba</h4>
+            <p class="card-text text-muted flex-grow-1">Perfilado con navaja, toalla caliente y lavado con productos prémium.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <span class="text-decoration-line-through text-muted small">$35.000</span>
+                <span class="fs-4 fw-bold text-success d-block">$29.750</span>
+              </div>
+              <a href="./agendar.html?servicio=1" class="btn btn-dark">Agendar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0 rounded-3">
+          <div class="card-body p-4 d-flex flex-column">
+            <h4 class="card-title fw-bold">Fade / Degradado</h4>
+            <p class="card-text text-muted flex-grow-1">Corte moderno de transición milimétrica con tijera y máquina.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="fs-4 fw-bold text-dark">$22.000</span>
+              <a href="./agendar.html?servicio=2" class="btn btn-dark">Agendar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3 -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm border-0 rounded-3">
+          <div class="card-body p-4 d-flex flex-column">
+            <h4 class="card-title fw-bold">Tinte / Camuflaje de Canas</h4>
+            <p class="card-text text-muted flex-grow-1">Aplicación de color natural con tratamiento hidratante capilar.</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="fs-4 fw-bold text-dark">$45.000</span>
+              <a href="./agendar.html?servicio=3" class="btn btn-dark">Agendar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../JavaScript/auth.js"></script>
+</body>
+</html>
