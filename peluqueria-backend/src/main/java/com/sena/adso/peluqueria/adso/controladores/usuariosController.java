@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,19 +23,19 @@ import com.sena.adso.peluqueria.adso.servicios.UsuariosServices;
 
 public class usuariosController {
 
+    
     private final UsuariosServices servicio;
 
     usuariosController(UsuariosServices servicio) {
         this.servicio = servicio;
     }
 
-    @CrossOrigin(origins = "*")
+
     @GetMapping
     public ResponseEntity<?> listarTodos(){
         return ResponseEntity.ok(servicio.getdAll());
     }
 
-    @CrossOrigin(origins = "*")
 
     @GetMapping("/{id}")
     public ResponseEntity<?> ListarPorId(@PathVariable(value= "id") Integer id){
@@ -50,21 +49,21 @@ public class usuariosController {
     }
 
     
-    @CrossOrigin(origins = "*")
+    
     @PostMapping
     public ResponseEntity<?> crearEntidad(@RequestBody UsuariosEntity entity){
 
         return ResponseEntity.ok(servicio.save(entity));
     }
 
-    @CrossOrigin(origins = "*")
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> actualizarEntidad(@RequestBody UsuariosEntity entity){
 
         return ResponseEntity.ok(servicio.update(entity));
     }
 
-    @CrossOrigin(origins = "*")
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminarEntidad(@PathVariable(value= "id") Integer id){
     Optional<UsuariosEntity> entidad = servicio.getById(id);
