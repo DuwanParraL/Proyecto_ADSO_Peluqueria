@@ -2,6 +2,8 @@ package com.sena.adso.peluqueria.adso.entidades;
 
 import org.jspecify.annotations.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,6 +40,7 @@ public class UsuariosEntity{
         @NonNull
         private String user;
 
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         @Column(name = "password", nullable = false, length = 200)
         @NonNull
         private String password;
