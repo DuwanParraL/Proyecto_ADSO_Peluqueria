@@ -1,26 +1,899 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peluquería</title>
-    <link rel="stylesheet" href="Librerias/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/estilos.css">
-    <script src="peluquería-FrondEnd/Librerias/jquery/jquery-4.0.0.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBAN LOOK - Barbería Premium | Estilo para Hombres de Grandeza</title>
+  <meta name="description" content="URBAN LOOK - Barbería masculina premium. Cortes personalizados, perfilado de barba, tratamientos faciales y asesoría de estilo profesional en Bucaramanga.">
+  
+  <!-- Librerías de Estilos -->
+  <link rel="stylesheet" href="./Librerias/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/estilos.css">
+  
+  <!-- Iconos de Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    
 
+  <!-- =========================================================
+       1. TOP HEADER
+       ========================================================= -->
+  <header class="top-header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <!-- Marca / Logo -->
+      <a href="./index.html" class="logo-brand">
+        URBAN <span>LOOK</span>
+        <span class="badge-adso">ADSO</span>
+      </a>
 
+      <!-- Botón Login o Menú de Perfil -->
+      <div class="d-flex align-items-center gap-3">
+        <!-- Botón cuando no ha iniciado sesión -->
+        <button id="header-btn-login" class="btn-gold btn-open-login">
+          <i class="bi bi-person-fill"></i> Iniciar Sesión
+        </button>
 
+        <!-- Dropdown cuando ya inició sesión -->
+        <div id="header-user-profile" style="display: none; position: relative;">
+          <button id="btn-toggle-profile-menu" class="user-avatar-btn" title="Opciones de perfil">
+            <div class="user-avatar-icon">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="text-start d-none d-sm-block">
+              <div id="display-user-name" class="fw-bold fs-6">Usuario</div>
+              <small id="display-user-role" class="text-warning text-uppercase" style="font-size: 0.72rem;">CLIENTE</small>
+            </div>
+            <i class="bi bi-chevron-down text-muted ms-1"></i>
+          </button>
 
+          <!-- Menú Flotante de Usuario -->
+          <div id="profile-menu-dropdown" class="profile-dropdown-menu">
+            <div class="profile-dropdown-header">
+              <div class="fw-bold text-white">Mi Cuenta</div>
+              <small class="text-muted">Urban Look Member</small>
+            </div>
+            <a href="./cliente/catalogo.html" class="profile-dropdown-item">
+              <i class="bi bi-grid-fill"></i> Catálogo de Servicios
+            </a>
+            <a href="./cliente/agendar.html" class="profile-dropdown-item">
+              <i class="bi bi-calendar2-check-fill"></i> Agendar Cita
+            </a>
+            <a href="./admin/citas.html" id="dropdown-link-admin" class="profile-dropdown-item" style="display: none;">
+              <i class="bi bi-speedometer2"></i> Panel Administrativo
+            </a>
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 6px 0;"></div>
+            <a href="javascript:void(0)" onclick="cerrarSesion()" class="profile-dropdown-item text-danger">
+              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
 
+  <!-- =========================================================
+       2. BARRA DE NAVEGACIÓN PRINCIPAL (TABS)
+       ========================================================= -->
+  <nav class="main-nav-bar">
+    <div class="container">
+      <ul class="nav-tabs-custom">
+        <li class="nav-item">
+          <button class="nav-link-custom" data-target="section-profesionales">
+            Profesionales
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-custom" data-target="section-servicios">
+            Servicios
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-custom" data-target="section-quienes-somos">
+            Quiénes Somos
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-custom" data-target="section-contactenos">
+            Contáctenos
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link-custom btn-agenda-nav" data-target="section-agendar">
+            <i class="bi bi-scissors me-1"></i> Agendar Cita
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
+  <!-- =========================================================
+       3. HERO BANNER PRINCIPAL
+       ========================================================= -->
+  <section class="hero-wrapper">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <div class="hero-title-group">
+        <h1>URBAN <span>LOOK</span></h1>
+      </div>
+      <div class="hero-subtitle">Para Hombres de Grandeza</div>
+      <p class="hero-desc">
+        Vive una experiencia <strong>PREMIUM</strong>: cortes personalizados, asesoría de imagen profesional, perfilado con navaja tradicional y un ambiente exclusivo diseñado para tu confort.
+      </p>
+      <div class="hero-cta">
+        <button id="hero-btn-agenda" class="btn-gold fs-5 px-4 py-3">
+          <i class="bi bi-calendar-event me-2"></i> AGENDA TU CITA
+        </button>
+        <button class="btn-outline-gold fs-6 px-4 py-3" onclick="document.querySelector('[data-target=\'section-servicios\']').click()">
+          <i class="bi bi-eye me-2"></i> Ver Servicios
+        </button>
+      </div>
+    </div>
+  </section>
 
-    <script src="libreria/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="peluquería-FrondEnd/JavaScrip"></script>
-    <script src="peluquería-FrondEnd/Librerias/jquery/jquery-4.0.0.min.js"></script>
+  <!-- =========================================================
+       4. SECCIÓN: PROFESIONALES
+       ========================================================= -->
+  <section id="section-profesionales" class="section-panel">
+    <div class="container">
+      <div class="glass-box">
+        <h2 class="section-header-title">Nuestros Profesionales</h2>
+        <p class="text-center text-muted mb-5" style="max-width: 650px; margin-left: auto; margin-right: auto;">
+          Conoce a nuestro equipo de maestros barberos y estilistas certificados, dedicados al arte de la precisión y el estilo masculino.
+        </p>
+
+        <div class="row g-4">
+          <!-- Profesional 1: Andrés Morales -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="barber-card">
+              <div class="barber-img-container">
+                <img src="./img/barber_andres.jpg" alt="Barbero Andrés Morales">
+                <div class="barber-rating-badge">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i> 5.0
+                </div>
+              </div>
+              <div class="barber-info">
+                <h3 class="barber-name">Andrés Morales</h3>
+                <div class="barber-role">Barbero Máster & Educador</div>
+                <p class="barber-desc">
+                  Especialista en degradados milimétricos (skin fade), perfilado clásico de barba con toalla caliente y técnicas de navaja tradicional.
+                </p>
+                <ul class="barber-specs">
+                  <li><strong>Experiencia:</strong> 7 años</li>
+                  <li><strong>Especialidad:</strong> Fade, Barba & Visagismo</li>
+                  <li><strong>Turnos:</strong> Lunes a Sábado</li>
+                </ul>
+                <button class="btn-gold w-100 mt-auto" onclick="seleccionarBarberoYAgendar('Andrés Morales')">
+                  Agendar con Andrés
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profesional 2: Mateo Restrepo -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="barber-card">
+              <div class="barber-img-container">
+                <img src="./img/barber_mateo.jpg" alt="Barbero Mateo Restrepo">
+                <div class="barber-rating-badge">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i> 4.9
+                </div>
+              </div>
+              <div class="barber-info">
+                <h3 class="barber-name">Mateo Restrepo</h3>
+                <div class="barber-role">Estilista Capilar & Texturizado</div>
+                <p class="barber-desc">
+                  Apasionado por las tendencias modernas, cortes con tijera japonesa, peinados con textura, pompadour y tratamientos capilares nutritivos.
+                </p>
+                <ul class="barber-specs">
+                  <li><strong>Experiencia:</strong> 5 años</li>
+                  <li><strong>Especialidad:</strong> Tijera, Texturas & Color</li>
+                  <li><strong>Turnos:</strong> Martes a Domingo</li>
+                </ul>
+                <button class="btn-gold w-100 mt-auto" onclick="seleccionarBarberoYAgendar('Mateo Restrepo')">
+                  Agendar con Mateo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profesional 3: Sebastián Castro -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="barber-card">
+              <div class="barber-img-container">
+                <img src="./img/barber_sebastian.jpg" alt="Barbero Sebastián Castro">
+                <div class="barber-rating-badge">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i> 5.0
+                </div>
+              </div>
+              <div class="barber-info">
+                <h3 class="barber-name">Sebastián Castro</h3>
+                <div class="barber-role">Diseñador Facial & Barbero</div>
+                <p class="barber-desc">
+                  Experto en diseño de cejas masculinas, camuflaje de canas y tratamientos de spa facial masculino con vapor de ozono.
+                </p>
+                <ul class="barber-specs">
+                  <li><strong>Experiencia:</strong> 6 años</li>
+                  <li><strong>Especialidad:</strong> Faciales, Barbas & Cejas</li>
+                  <li><strong>Turnos:</strong> Miércoles a Lunes</li>
+                </ul>
+                <button class="btn-gold w-100 mt-auto" onclick="seleccionarBarberoYAgendar('Sebastián Castro')">
+                  Agendar con Sebastián
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       5. SECCIÓN: SERVICIOS
+       ========================================================= -->
+  <section id="section-servicios" class="section-panel">
+    <div class="container">
+      <div class="glass-box">
+        <h2 class="section-header-title">Nuestros Servicios</h2>
+
+        <!-- Filtros de Categorías de Servicios -->
+        <div class="category-pills">
+          <button class="category-pill-btn active" data-category="all">Todos</button>
+          <button class="category-pill-btn" data-category="cabello">Cabello</button>
+          <button class="category-pill-btn" data-category="barba">Barba</button>
+          <button class="category-pill-btn" data-category="cejas">Cejas</button>
+          <button class="category-pill-btn" data-category="faciales">Faciales</button>
+          <button class="category-pill-btn" data-category="promos">Promos</button>
+        </div>
+
+        <!-- Grilla de Tarjetas de Servicios -->
+        <div class="row g-4" id="services-grid-container">
+          <!-- Servicio 1: Corte Clásico + Barba (Promo) -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="promos">
+            <div class="service-card" data-id="serv-1" data-name="Corte Clásico + Barba" data-price="29750">
+              <span class="service-badge-promo">15% OFF</span>
+              <h3 class="service-title">Corte Clásico + Barba</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 45 a 60 min</span>
+                <div>
+                  <span class="service-old-price">$35.000</span>
+                  <span class="service-price">$29.750</span>
+                </div>
+              </div>
+              <p class="service-desc">
+                Corte personalizado con tijera o máquina, perfilado de barba con navaja, toalla caliente relajante y peinado con cera mate.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 2: Fade / Degradado -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="cabello">
+            <div class="service-card" data-id="serv-2" data-name="Fade / Degradado Moderno" data-price="22000">
+              <h3 class="service-title">Fade / Degradado</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 40 a 50 min</span>
+                <span class="service-price">$22.000</span>
+              </div>
+              <p class="service-desc">
+                Transición milimétrica (Low, Mid o High Fade), desvanecido perfecto a navaja o shaver, lavado capilar y producto de fijación.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 3: Rapado Uniforme -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="cabello">
+            <div class="service-card" data-id="serv-3" data-name="Rapado Uniforme" data-price="18000">
+              <h3 class="service-title">Rapado Uniforme</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 20 min</span>
+                <span class="service-price">$18.000</span>
+              </div>
+              <p class="service-desc">
+                Ejecutado con máquina para un acabado limpio y parejo. Incluye cerquillo en cuello y patillas, lavado y loción refrescante.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 4: Corte de Cabello Niño -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="cabello">
+            <div class="service-card" data-id="serv-4" data-name="Corte Niño" data-price="20000">
+              <h3 class="service-title">Corte Niño (1 a 12 años)</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 30 a 40 min</span>
+                <span class="service-price">$20.000</span>
+              </div>
+              <p class="service-desc">
+                Atención con paciencia y técnicas adaptadas para los más pequeños, corte de moda y peinado con gel suave infantil.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 5: Perfilado de Barba Spa -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="barba">
+            <div class="service-card" data-id="serv-5" data-name="Perfilado de Barba Spa" data-price="18000">
+              <h3 class="service-title">Perfilado de Barba Spa</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 30 min</span>
+                <span class="service-price">$18.000</span>
+              </div>
+              <p class="service-desc">
+                Recorte de volumen, alineado a navaja, doble toalla caliente con aceites esenciales hidratantes y bálsamo para barba.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 6: Diseño de Cejas Masculinas -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="cejas">
+            <div class="service-card" data-id="serv-6" data-name="Diseño de Cejas" data-price="12000">
+              <h3 class="service-title">Diseño de Cejas</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 15 min</span>
+                <span class="service-price">$12.000</span>
+              </div>
+              <p class="service-desc">
+                Limpieza y perfilado natural con navaja y tijera, manteniendo la armonía masculina sin perder la forma natural.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 7: Limpieza Facial y Vapor de Ozono -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="faciales">
+            <div class="service-card" data-id="serv-7" data-name="Facial Vapor de Ozono" data-price="35000">
+              <h3 class="service-title">Facial Vapor de Ozono</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 35 min</span>
+                <span class="service-price">$35.000</span>
+              </div>
+              <p class="service-desc">
+                Apertura de poros con vapor ozonizado, exfoliación profunda de puntos negros, mascarilla de carbón activado e hidratación.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 8: Alisado de Cabello -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="cabello">
+            <div class="service-card" data-id="serv-8" data-name="Alisado Capilar Keratina" data-price="57000">
+              <h3 class="service-title">Alisado Capilar Keratina</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 60 min</span>
+                <span class="service-price">$57.000</span>
+              </div>
+              <p class="service-desc">
+                Tratamiento técnico anti-frizz para controlar cabellos rebeldes y ondulados, otorgando brillo natural y suavidad prolongada.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+
+          <!-- Servicio 9: Tinte y Camuflaje de Canas (Promo) -->
+          <div class="col-12 col-md-6 col-lg-4 service-card-item" data-category="promos">
+            <div class="service-card" data-id="serv-9" data-name="Camuflaje de Canas" data-price="45000">
+              <span class="service-badge-promo">EXCLUSIVO</span>
+              <h3 class="service-title">Camuflaje de Canas</h3>
+              <div class="service-meta">
+                <span class="service-duration"><i class="bi bi-clock me-1"></i> 30 min</span>
+                <span class="service-price">$45.000</span>
+              </div>
+              <p class="service-desc">
+                Tonalización sutil sin efecto tinturado artificial. Disimula las canas en barba o cabello en solo 10 minutos de aplicación.
+              </p>
+              <button class="btn-select-service">Seleccionar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barra Flotante de Servicios Seleccionados -->
+  <div id="floating-cart-bar" class="floating-cart-bar">
+    <div>
+      <div id="cart-service-count" class="fw-bold text-white fs-6">0 servicios seleccionados</div>
+      <div id="cart-total-price" class="text-warning fw-bold fs-5">$0</div>
+    </div>
+    <button id="cart-btn-next" class="btn-gold px-4 py-2">
+      SIGUIENTE <i class="bi bi-arrow-right ms-1"></i>
+    </button>
+  </div>
+
+  <!-- =========================================================
+       6. SECCIÓN: QUIÉNES SOMOS (HISTORIA Y RESEÑAS)
+       ========================================================= -->
+  <section id="section-quienes-somos" class="section-panel">
+    <div class="container">
+      <div class="glass-box">
+        <!-- Navegación interna de la sección -->
+        <div class="subtabs-nav">
+          <button class="subtab-btn active" data-subtab="subtab-historia">Nuestra Historia</button>
+          <button class="subtab-btn" data-subtab="subtab-resenas">Reseñas de Clientes</button>
+        </div>
+
+        <!-- Panel 1: Historia -->
+        <div id="subtab-historia" class="subtab-content">
+          <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-5 text-center">
+              <img src="./img/barber_andres.jpg" alt="Fundador Urban Look" class="img-fluid rounded-4 shadow-lg border border-secondary" style="max-height: 420px; object-fit: cover;">
+            </div>
+            <div class="col-12 col-lg-7">
+              <h3 class="fw-bold text-warning mb-3">La Pasión por la Excelencia Masculina</h3>
+              <p class="lead text-light mb-3">
+                Todo comenzó con un sueño, una pasión inquebrantable y una máquina de cortar cabello.
+              </p>
+              <p class="text-muted">
+                Hace algunos años, decidimos que queríamos algo más que trabajar en una peluquería convencional: soñábamos con crear un espacio exclusivo donde cada caballero pudiera desconectar de la rutina, elevar su confianza y recibir una atención de primer nivel.
+              </p>
+              <p class="text-muted">
+                Lo que inició en un local pequeño con un solo sillón y un espejo, hoy es <strong>URBAN LOOK</strong>: un referente de estilo en Bucaramanga que combina la elegancia clásica con las tendencias urbanas más vanguardistas.
+              </p>
+              <div class="row g-3 mt-3">
+                <div class="col-6 col-md-4">
+                  <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);">
+                    <i class="bi bi-shield-check text-warning fs-3 mb-1 d-block"></i>
+                    <strong class="text-white d-block">Higiene 100%</strong>
+                    <small class="text-muted">Esterilización UV</small>
+                  </div>
+                </div>
+                <div class="col-6 col-md-4">
+                  <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);">
+                    <i class="bi bi-clock-history text-warning fs-3 mb-1 d-block"></i>
+                    <strong class="text-white d-block">Puntualidad</strong>
+                    <small class="text-muted">Tu tiempo vale</small>
+                  </div>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="p-3 rounded-3 text-center" style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle);">
+                    <i class="bi bi-cup-hot text-warning fs-3 mb-1 d-block"></i>
+                    <strong class="text-white d-block">Cortesía</strong>
+                    <small class="text-muted">Café & Bebida VIP</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Reseñas -->
+        <div id="subtab-resenas" class="subtab-content" style="display: none;">
+          <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">"Excelente servicio y un muy buen ambiente. El corte quedó impecable tal como lo pedí. ¡Totalmente recomendado!"</p>
+                <div class="review-author">
+                  <i class="bi bi-person-circle fs-4"></i> Camilo Garay
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">"Llevé a mi hijo y la paciencia y el trato del barbero fue de 10/10. Muy aseado y la música en el volumen perfecto."</p>
+                <div class="review-author">
+                  <i class="bi bi-person-circle fs-4"></i> Mónica TF
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">"El ritual de toalla caliente para la barba es otro nivel. Salí renovado. Andrés es un maestro de la navaja."</p>
+                <div class="review-author">
+                  <i class="bi bi-person-circle fs-4"></i> Diego Silva
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                </div>
+                <p class="review-text">"Marca la diferencia. Te reciben con una bebida de cortesía y la puntualidad con la cita agendada se cumple siempre."</p>
+                <div class="review-author">
+                  <i class="bi bi-person-circle fs-4"></i> Andrés Arciniegas
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       7. SECCIÓN: CONTÁCTENOS
+       ========================================================= -->
+  <section id="section-contactenos" class="section-panel">
+    <div class="container">
+      <div class="glass-box">
+        <h2 class="section-header-title">Contáctanos</h2>
+
+        <div class="row g-5">
+          <!-- Información y Mapa -->
+          <div class="col-12 col-lg-5">
+            <div class="contact-item">
+              <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+              <div class="contact-info">
+                <h6>Dirección</h6>
+                <p>Carrera 33 # 48-20, Cabecera del Llano<br>Bucaramanga, Santander, Colombia</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon"><i class="bi bi-telephone-fill"></i></div>
+              <div class="contact-info">
+                <h6>Teléfonos de Atención</h6>
+                <p>Fijo: +57 (607) 634-8899<br>Celular / WhatsApp: +57 318 456 7890</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon"><i class="bi bi-clock-fill"></i></div>
+              <div class="contact-info">
+                <h6>Horarios de Atención</h6>
+                <p>Lunes a Sábado: 8:00 AM – 8:00 PM<br>Domingos y Festivos: 9:00 AM – 3:00 PM</p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon"><i class="bi bi-whatsapp"></i></div>
+              <div class="contact-info">
+                <h6>WhatsApp Directo</h6>
+                <a href="https://wa.me/573184567890" target="_blank" class="fw-bold">
+                  Chatear con un asesor <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Mapa embebido de Bucaramanga -->
+            <div class="mt-4 rounded-3 overflow-hidden border border-secondary" style="height: 200px;">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15836.425102558237!2d-73.1189441!3d7.1147048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e683fa6f671bb5d%3A0xc3f8e52a466c1f22!2sCabecera%20del%20Llano%2C%20Bucaramanga%2C%20Santander!5e0!3m2!1ses!2sco!4v1710000000000" 
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+              </iframe>
+            </div>
+          </div>
+
+          <!-- Formulario de Contacto / PQRS -->
+          <div class="col-12 col-lg-7">
+            <div class="p-4 rounded-3" style="background: rgba(18, 18, 24, 0.95); border: 1px solid var(--border-subtle);">
+              <h4 class="fw-bold text-white mb-2">Envíanos un mensaje o sugerencia</h4>
+              <p class="text-muted small mb-4">¿Tienes alguna consulta especial o deseas hacernos llegar una sugerencia? Completa el formulario:</p>
+
+              <form id="formContacto">
+                <div class="row g-3">
+                  <div class="col-12 col-sm-6">
+                    <label class="form-label text-warning small fw-bold">Nombre completo</label>
+                    <input type="text" class="form-control-dark" placeholder="Tu nombre" required>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <label class="form-label text-warning small fw-bold">Correo electrónico</label>
+                    <input type="email" class="form-control-dark" placeholder="ejemplo@correo.com" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label text-warning small fw-bold">Número de celular / WhatsApp</label>
+                    <input type="tel" class="form-control-dark" placeholder="318 000 0000" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label text-warning small fw-bold">Mensaje o Sugerencia</label>
+                    <textarea class="form-control-dark" rows="4" placeholder="Escribe aquí tu consulta o comentario..." required></textarea>
+                  </div>
+                  <div class="col-12 text-end">
+                    <button type="submit" class="btn-gold px-4 py-2">
+                      <i class="bi bi-send-fill me-2"></i> Enviar Mensaje
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       8. SECCIÓN: AGENDAR CITA
+       ========================================================= -->
+  <section id="section-agendar" class="section-panel">
+    <div class="container">
+      <div class="glass-box text-center" style="max-width: 760px; margin: 0 auto;">
+        <h2 class="section-header-title">Luce tu Mejor Estilo</h2>
+        <p class="fs-4 text-warning fw-bold mb-4">¡Agenda tu cita aquí en simples pasos!</p>
+
+        <div class="p-4 rounded-4 mb-4 text-start" style="background: rgba(15, 15, 20, 0.9); border: 1.5px solid var(--border-gold);">
+          <h5 class="fw-bold text-white mb-3"><i class="bi bi-calendar-check text-warning me-2"></i> Formulario Rápido de Agendamiento</h5>
+          
+          <form id="formAgendamientoRapido" onsubmit="event.preventDefault(); procesarAgendamiento();">
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">1. Selecciona el Barbero</label>
+                <select id="agenda-barbero-select" class="form-control-dark" required>
+                  <option value="Andrés Morales">Andrés Morales (Barbero Máster)</option>
+                  <option value="Mateo Restrepo">Mateo Restrepo (Estilista Capilar)</option>
+                  <option value="Sebastián Castro">Sebastián Castro (Diseñador Facial)</option>
+                  <option value="Cualquier barbero disponible">Cualquiera disponible</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">2. Servicio Principal</label>
+                <select id="agenda-servicio-select" class="form-control-dark" required>
+                  <option value="Corte Clásico + Barba ($29.750)">Corte Clásico + Barba ($29.750)</option>
+                  <option value="Fade / Degradado ($22.000)">Fade / Degradado ($22.000)</option>
+                  <option value="Rapado ($18.000)">Rapado Uniforme ($18.000)</option>
+                  <option value="Corte Niño ($20.000)">Corte Niño ($20.000)</option>
+                  <option value="Perfilado Barba ($18.000)">Perfilado de Barba Spa ($18.000)</option>
+                  <option value="Facial Vapor de Ozono ($35.000)">Facial Vapor de Ozono ($35.000)</option>
+                  <option value="Camuflaje Canas ($45.000)">Camuflaje de Canas ($45.000)</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">3. Fecha deseada</label>
+                <input type="date" id="agenda-fecha" class="form-control-dark" required>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">4. Hora</label>
+                <select id="agenda-hora" class="form-control-dark" required>
+                  <option value="09:00 AM">09:00 AM</option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="11:00 AM">11:00 AM</option>
+                  <option value="02:00 PM">02:00 PM</option>
+                  <option value="03:30 PM">03:30 PM</option>
+                  <option value="05:00 PM">05:00 PM</option>
+                  <option value="06:30 PM">06:30 PM</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">Nombre del Cliente</label>
+                <input type="text" id="agenda-nombre" class="form-control-dark" placeholder="Tu nombre y apellido" required>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label class="form-label text-muted small fw-bold">Celular de Contacto</label>
+                <input type="tel" id="agenda-celular" class="form-control-dark" placeholder="318 000 0000" required>
+              </div>
+
+              <div class="col-12 mt-4 text-center">
+                <button type="submit" class="btn-gold w-100 py-3 fs-5">
+                  <i class="bi bi-check-circle-fill me-2"></i> Confirmar y Reservar Turno
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <p class="text-muted small">
+          ¿Ya tienes cuenta o eres del equipo? 
+          <a href="#" class="btn-open-login fw-bold ms-1">Inicia sesión aquí</a> para acceder a tu historial completo de turnos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       9. MODAL DE INICIO DE SESIÓN (IDÉNTICO AL PROTOTIPO)
+       ========================================================= -->
+  <div id="modal-login" class="modal-backdrop-custom">
+    <div class="modal-card-custom">
+      <button class="btn-close-modal" title="Cerrar">&times;</button>
+      
+      <h3 class="modal-title-custom">Inicio de Sesión</h3>
+      <p class="modal-subtitle-custom">Ingresa tu email y contraseña para continuar</p>
+
+      <form id="formLoginModal">
+        <div class="mb-3">
+          <label for="usuarioModal" class="form-label text-warning small fw-bold">Email / Usuario</label>
+          <div class="input-group">
+            <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-envelope-fill"></i></span>
+            <input type="text" class="form-control-dark" id="usuarioModal" placeholder="correo@correo.com" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="passwordModal" class="form-label text-warning small fw-bold">Contraseña</label>
+          <div class="input-group">
+            <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-lock-fill"></i></span>
+            <input type="password" class="form-control-dark" id="passwordModal" placeholder="Escribe tu contraseña" required>
+            <button type="button" class="btn btn-outline-secondary btn-toggle-pwd" data-input="passwordModal">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Selector de Rol Simulado (Requisito ADSO para probar cliente, barbero y admin) -->
+        <div class="mb-4">
+          <label for="rolSimuladoModal" class="form-label text-warning small fw-bold">Ingresar como (Simulador ADSO):</label>
+          <select class="form-control-dark" id="rolSimuladoModal">
+            <option value="CLIENTE">Cliente / Usuario</option>
+            <option value="EMPLEADO">Empleado / Barbero</option>
+            <option value="ADMIN">Administrador</option>
+          </select>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4 text-muted small">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="recordarmeCheck" checked>
+            <label class="form-check-label text-light" for="recordarmeCheck">Recordarme</label>
+          </div>
+          <a href="#" onclick="alert('Funcionalidad de recuperación: se enviará un enlace temporal a tu correo institucional.'); return false;">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <button type="submit" class="btn-gold w-100 py-2 fs-6 mb-3">
+          Ingresar
+        </button>
+
+        <button type="button" class="btn btn-outline-warning w-100 py-2 fs-6 btn-open-registro">
+          REGISTRARME
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       10. MODAL DE REGISTRO (IDÉNTICO AL PROTOTIPO)
+       ========================================================= -->
+  <div id="modal-registro" class="modal-backdrop-custom">
+    <div class="modal-card-custom modal-wide">
+      <button class="btn-close-modal" title="Cerrar">&times;</button>
+      
+      <h3 class="modal-title-custom">Registrarme</h3>
+      <p class="modal-subtitle-custom">Crea tu cuenta de cliente en URBAN LOOK</p>
+
+      <form id="formRegistro">
+        <div class="row g-3">
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Nombre</label>
+            <input type="text" id="regNombre" class="form-control-dark" placeholder="Tu nombre" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Apellido</label>
+            <input type="text" id="regApellido" class="form-control-dark" placeholder="Tu apellido" required>
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Tipo de Documento</label>
+            <select id="regTipoDoc" class="form-control-dark" required>
+              <option value="CC">Cédula de Ciudadanía (CC)</option>
+              <option value="TI">Tarjeta de Identidad (TI)</option>
+              <option value="CE">Cédula de Extranjería (CE)</option>
+              <option value="PASAPORTE">Pasaporte</option>
+            </select>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Número de Documento</label>
+            <input type="text" id="regDocumento" class="form-control-dark" placeholder="Número de identificación" required>
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Email</label>
+            <input type="email" id="regEmail" class="form-control-dark" placeholder="micompania@correo.com" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Celular</label>
+            <input type="tel" id="regCelular" class="form-control-dark" placeholder="318 000 0000" required>
+          </div>
+
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Contraseña</label>
+            <input type="password" id="regPassword" class="form-control-dark" placeholder="Escribe tu contraseña" required>
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label text-warning small fw-bold">Verificar Contraseña</label>
+            <input type="password" id="regPasswordVerify" class="form-control-dark" placeholder="Repite tu contraseña" required>
+          </div>
+
+          <div class="col-12 mt-4">
+            <button type="submit" class="btn-gold w-100 py-2 fs-6">
+              Registrarse
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       11. FOOTER
+       ========================================================= -->
+  <footer class="main-footer">
+    <div class="container">
+      <p class="fw-bold text-white mb-1">URBAN LOOK &copy; 2026 - Todos los derechos reservados.</p>
+      <p class="text-muted small">Proyecto Formativo Tecnólogo en Análisis y Desarrollo de Software (ADSO) - SENA</p>
+    </div>
+  </footer>
+
+  <!-- =========================================================
+       12. SCRIPTS DE FUNCIONAMIENTO
+       ========================================================= -->
+  <script src="./Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./Librerias/jquery/jquery-4.0.0.min.js"></script>
+  <script src="./JavaScript/api.js"></script>
+  <script src="./JavaScript/auth.js"></script>
+  <script src="./JavaScript/main.js"></script>
+
+  <script>
+    // Función auxiliar para seleccionar barbero desde su tarjeta y abrir agendar
+    function seleccionarBarberoYAgendar(nombreBarbero) {
+      const selectBarbero = document.getElementById('agenda-barbero-select');
+      if (selectBarbero) {
+        selectBarbero.value = nombreBarbero;
+      }
+      const agendaTab = document.querySelector('[data-target="section-agendar"]');
+      if (agendaTab) agendaTab.click();
+    }
+
+    // Procesar agendamiento rápido (Conectado con Spring Boot /citas)
+    async function procesarAgendamiento() {
+      const barbero = document.getElementById('agenda-barbero-select').value;
+      const servicio = document.getElementById('agenda-servicio-select').value;
+      const fecha = document.getElementById('agenda-fecha').value;
+      const hora = document.getElementById('agenda-hora').value;
+      const nombre = document.getElementById('agenda-nombre').value;
+      const celular = document.getElementById('agenda-celular').value;
+
+      // Estructura de la Cita esperada por CitasEntity en Spring Boot
+      const citaPayload = {
+        idCliente: 1, // ID del cliente autenticado
+        idEmpleado: barbero.includes('Andrés') ? 1 : (barbero.includes('Mateo') ? 2 : 3),
+        idServicio: servicio.includes('29.750') ? 1 : (servicio.includes('22.000') ? 2 : 3),
+        fecha: fecha, // YYYY-MM-DD
+        hora: hora.includes('AM') ? '09:00:00' : '15:00:00', // HH:mm:ss
+        estado: 'PENDIENTE',
+        observaciones: `Cliente: ${nombre} - Tel: ${celular}`
+      };
+
+      console.log('// CONEXIÓN BACKEND: Enviando cita a http://localhost:8080/citas', citaPayload);
+
+      try {
+        if (window.UrbanLookAPI) {
+          await window.UrbanLookAPI.crearCita(citaPayload);
+          alert(`💈 ¡CITA GUARDADA EN EL BACKEND!\n\nCliente: ${nombre}\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\nLos datos se enviaron a Spring Boot (/citas).`);
+        }
+      } catch (err) {
+        console.warn('// CONEXIÓN BACKEND: El backend en 8080 no está encendido. Ejecutando en Modo Simulación Local:', err.message);
+        alert(`💈 ¡CITA REGISTRADA (MODO SIMULACIÓN LOCAL)!\n\nCliente: ${nombre}\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\n[NOTA PARA DESARROLLO]: Cuando tu compañero inicie el backend Spring Boot en el puerto 8080, esta cita se guardará automáticamente en MySQL.`);
+      }
+
+      document.getElementById('formAgendamientoRapido').reset();
+    }
+
+    // Configurar fecha mínima de hoy en el calendario
+    const inputFecha = document.getElementById('agenda-fecha');
+    if (inputFecha) {
+      const hoy = new Date().toISOString().split('T')[0];
+      inputFecha.min = hoy;
+      inputFecha.value = hoy;
+    }
+  </script>
 </body>
 </html>

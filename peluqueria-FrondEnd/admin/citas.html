@@ -11,11 +11,10 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold" href="#">Panel Administrativo</a>
+      <a class="navbar-brand fw-bold" href="../index.html">URBAN <span class="text-warning">LOOK</span> <small class="fw-normal text-muted" style="font-size: 0.8rem;">| Panel Admin</small></a>
       <div class="navbar-nav me-auto">
         <a class="nav-link active" href="./citas.html">Citas Asignadas</a>
-        <a class="nav-link" href="./dias-libres.html">Mis Días Libres</a>
-        <a class="nav-link" href="./empleados.html">Gestión de Empleados</a>
+        <a class="nav-link" href="../index.html">Ir al Sitio</a>
       </div>
       <button onclick="cerrarSesion()" class="btn btn-outline-danger btn-sm">Cerrar Sesión</button>
     </div>
@@ -43,16 +42,16 @@
               <th>Acción</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tabla-citas-body">
             <tr>
               <td class="fw-bold">09:00 AM</td>
               <td>Carlos Gómez</td>
               <td>Corte Clásico + Barba</td>
               <td>Andrés Barbero</td>
-              <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+              <td><span class="badge bg-warning text-dark">PENDIENTE</span></td>
               <td>
-                <button class="btn btn-sm btn-success">Completar</button>
-                <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                <button class="btn btn-sm btn-success" onclick="cambiarEstadoCitaLocal(1, 'COMPLETADA')">Completar</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="cambiarEstadoCitaLocal(1, 'CANCELADA')">Cancelar</button>
               </td>
             </tr>
             <tr>
@@ -60,9 +59,9 @@
               <td>Felipe Torres</td>
               <td>Fade / Degradado</td>
               <td>Andrés Barbero</td>
-              <td><span class="badge bg-info text-dark">En Atención</span></td>
+              <td><span class="badge bg-info text-dark">EN ATENCION</span></td>
               <td>
-                <button class="btn btn-sm btn-success">Completar</button>
+                <button class="btn btn-sm btn-success" onclick="cambiarEstadoCitaLocal(2, 'COMPLETADA')">Completar</button>
               </td>
             </tr>
           </tbody>
@@ -72,6 +71,61 @@
   </div>
 
   <script src="../Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../JavaScript/api.js"></script>
   <script src="../JavaScript/auth.js"></script>
+  <script>
+    // Cargar citas reales desde el Backend (/citas)
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.UrbanLookAPI) {
+        try {
+          const citas = await window.UrbanLookAPI.obtenerTodasLasCitas();
+          if (citas && Array.isArray(citas) && citas.length > 0) {
+            renderizarCitasBackend(citas);
+          }
+        } catch (err) {
+          console.info('Backend no disponible, mostrando turnos precargados.');
+        }
+      }
+    });
+
+    function renderizarCitasBackend(citas) {
+      const tbody = document.getElementById('tabla-citas-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      citas.forEach(cita => {
+        const badgeClass = cita.estado === 'COMPLETADA' ? 'bg-success' : (cita.estado === 'CANCELADA' ? 'bg-danger' : 'bg-warning text-dark');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="fw-bold">${cita.hora || '09:00 AM'}</td>
+          <td>Cliente #${cita.idCliente}</td>
+          <td>Servicio #${cita.idServicio}</td>
+          <td>Empleado #${cita.idEmpleado}</td>
+          <td><span class="badge ${badgeClass}">${cita.estado || 'PENDIENTE'}</span></td>
+          <td>
+            <button class="btn btn-sm btn-success me-1" onclick="cambiarEstadoCitaBackend(${cita.id}, 'COMPLETADA')">Completar</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="cambiarEstadoCitaBackend(${cita.id}, 'CANCELADA')">Cancelar</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function cambiarEstadoCitaBackend(id, nuevoEstado) {
+      if (window.UrbanLookAPI) {
+        try {
+          await window.UrbanLookAPI.cambiarEstadoCita(id, nuevoEstado);
+          alert(`Estado actualizado a: ${nuevoEstado}`);
+          location.reload();
+        } catch (err) {
+          alert(`No se pudo conectar con el backend: ${err.message}`);
+        }
+      }
+    }
+
+    function cambiarEstadoCitaLocal(id, nuevoEstado) {
+      alert(`[MODO LOCAL] Estado de la cita #${id} cambiado a: ${nuevoEstado}`);
+    }
+  </script>
 </body>
 </html>
