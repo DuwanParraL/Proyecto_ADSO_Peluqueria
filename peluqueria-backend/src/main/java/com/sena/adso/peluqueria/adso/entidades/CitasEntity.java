@@ -1,5 +1,6 @@
 package com.sena.adso.peluqueria.adso.entidades;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import jakarta.persistence.Column;
@@ -29,7 +30,7 @@ public class CitasEntity {
     private Integer idServicio;
 
     @Column (name = "fecha", nullable = false)
-    private LocalTime fecha;
+    private LocalDate fecha;
 
     @Column (name = "hora", nullable = false)
     private LocalTime hora;
@@ -72,11 +73,11 @@ public class CitasEntity {
         this.idServicio = idServicio;
     }
 
-    public LocalTime getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalTime fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

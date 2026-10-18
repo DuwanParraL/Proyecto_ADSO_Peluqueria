@@ -60,16 +60,16 @@ public class CitasController {
     public ResponseEntity<CitasEntity> update(@PathVariable Integer id, @RequestBody CitasEntity entity){
         entity.setId(id);
         CitasEntity actualizado = servicio.update(entity);
-        if (actualizado != null) {
+        if (actualizado == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(actualizado);
         }
     }
     @PutMapping("/{id}/estado/{nuevoEstado}")
-    public ResponseEntity<CitasEntity> update(@PathVariable Integer id, @RequestBody String nuevoEstado){
+    public ResponseEntity<CitasEntity> updateEstado(@PathVariable Integer id, @PathVariable String nuevoEstado){
         CitasEntity actualizado = servicio.CambiarEstado(id, nuevoEstado);
-        if (actualizado != null) {
+        if (actualizado == null) {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(actualizado);

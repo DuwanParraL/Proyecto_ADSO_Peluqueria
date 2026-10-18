@@ -3,50 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peluquería - Iniciar Sesión</title>
+  <title>URBAN LOOK - Iniciar Sesión</title>
   <link rel="stylesheet" href="./Librerias/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/estilos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      background: linear-gradient(rgba(8, 8, 10, 0.85), rgba(8, 8, 10, 0.85)), url('./img/fondo-barberia.jpg') center/cover no-repeat fixed;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+  </style>
 </head>
-<body class="bg-secondary d-flex align-items-center min-vh-100">
+<body>
 
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-sm-10 col-md-8 col-lg-5">
-        <div class="card shadow-sm border-0 rounded-4 p-4">
-          <div class="text-center mb-4">
-            <h2 class="fw-bold">Iniciar Sesión</h2>
-            <p class="text-muted">Accede a tu cuenta de cliente o administración</p>
-          </div>
+  <div class="modal-card-custom" style="max-width: 480px; margin: auto;">
+    <!-- Enlace volver a inicio -->
+    <div class="text-start mb-3">
+      <a href="./index.html" class="text-warning small text-decoration-none">
+        <i class="bi bi-arrow-left"></i> Volver a Urban Look
+      </a>
+    </div>
 
-          <form id="formLogin">
-            <div class="mb-3">
-              <label for="usuario" class="form-label fw-semibold">Usuario / Correo</label>
-              <input type="text" class="form-control form-control-lg" id="usuario" placeholder="ingrese el usuario o correo" required>
-            </div>
+    <h2 class="modal-title-custom">INICIO DE SESION</h2>
+    <p class="modal-subtitle-custom">Ingresa tu email y contraseña</p>
 
-            <div class="mb-3">
-              <label for="password" class="form-label fw-semibold">Contraseña</label>
-              <input type="password" class="form-control form-control-lg" id="password" required placeholder="ingrese la contraseña">
-            </div>
-
-            <div class="mb-3">
-              <label for="rolSimulado" class="form-label fw-semibold">Ingresar como :</label>
-              <select class="form-select" id="rolSimulado">
-                <option value="CLIENTE">Usuario</option>
-                <option value="EMPLEADO">Empleado</option>
-                <option value="ADMIN">Administrador</option>
-              </select>
-            </div>
-
-            <button type="submit" class="btn btn-dark btn-lg w-100 mt-2">Entrar</button>
-          </form>
-
-          <div class="text-center mt-4">
-            <small class="text-muted">¿No tienes cuenta? <a href="./registro.html" class="text-decoration-none">Regístrate aquí</a></small>
-          </div>
+    <form id="formLogin">
+      <div class="mb-3">
+        <label for="usuario" class="form-label text-warning small fw-bold">Email / Usuario</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-envelope-fill"></i></span>
+          <input type="text" class="form-control-dark" id="usuario" placeholder="correo@correo.com" required>
         </div>
       </div>
-    </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label text-warning small fw-bold">Contraseña</label>
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-lock-fill"></i></span>
+          <input type="password" class="form-control-dark" id="password" placeholder="Escribe tu contraseña" required>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="rolSimulado" class="form-label text-warning small fw-bold">Ingresar como (Simulador ADSO):</label>
+        <select class="form-control-dark" id="rolSimulado">
+          <option value="CLIENTE">Cliente / Usuario</option>
+          <option value="EMPLEADO">Empleado / Barbero</option>
+          <option value="ADMIN">Administrador</option>
+        </select>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4 text-muted small">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="recordarmeCheck" checked>
+          <label class="form-check-label text-light" for="recordarmeCheck">Recordarme</label>
+        </div>
+        <a href="#" onclick="alert('Se ha enviado un enlace de restablecimiento a tu correo.'); return false;">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button type="submit" class="btn-gold w-100 py-2 fs-6 mb-3">Ingresar</button>
+      <a href="./registro.html" class="btn btn-outline-warning w-100 py-2 fs-6 text-uppercase fw-bold text-center d-block">REGISTRARME</a>
+    </form>
   </div>
 
   <script src="./Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
