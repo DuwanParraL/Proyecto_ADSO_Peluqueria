@@ -23,10 +23,6 @@ public class EmpleadosServices {
         return repository.findAll();
     }
 
-    public List<EmpleadosEntity> getActivos(){
-        return repository.findByactivoTrue();
-    }
-
     public Optional<EmpleadosEntity> getById(Integer id){
         return repository.findById(id);
     }
@@ -49,4 +45,7 @@ public class EmpleadosServices {
     public void delete(Integer id){
         repository.deleteById(id);
     }
+    public List<EmpleadosEntity> getActivos() {
+    return repository.findByActivoTrue();
+}
 }

@@ -15,9 +15,12 @@ public interface UsuariosRepository  extends JpaRepository<UsuariosEntity, Integ
     
   List<UsuariosEntity> findByNombreLike(String nombre);
 
+  @Query ("SELECT u FROM UsuariosEntity u WHERE u.user = :credencial OR u.correo = :credencial")
+  Optional<UsuariosEntity> findByUserOrCorreo(@Param("credencial") String credencial);
+
   @Query( "SELECT u FROM UsuariosEntity u WHERE u.id_roles = :id_roles")
   List<UsuariosEntity> findByIdRoles(@Param("id_roles") Integer id_roles);
-  Optional<UsuariosEntity> findByUser(String user);
+ 
   
 
 }
