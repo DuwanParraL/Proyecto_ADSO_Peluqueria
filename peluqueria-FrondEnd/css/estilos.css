@@ -23,7 +23,7 @@
   --gold-gradient: linear-gradient(135deg, #f5be24 0%, #d49500 100%);
   
   --text-primary: #ffffff;
-  --text-muted: #9fa4b2;
+  --text-muted: #cbd5e1;
   --text-dark: #121214;
   
   --border-subtle: rgba(255, 255, 255, 0.1);
@@ -900,11 +900,68 @@ a:hover {
   padding: 30px 0;
   text-align: center;
   font-size: 0.88rem;
-  color: #64748b;
+  color: #cbd5e1;
 }
 
 .main-footer p {
   margin-bottom: 6px;
+}
+
+.main-footer .text-muted {
+  color: #cbd5e1 !important;
+}
+
+/* =========================================================
+   ALTO CONTRASTE Y LEGIBILIDAD EN TABLAS (ID, TEXTOS Y OBSERVACIONES)
+   ========================================================= */
+.text-muted {
+  color: #cbd5e1 !important; /* Gris claro de alto contraste contra fondos oscuros */
+}
+
+.table-dark {
+  --bs-table-bg: #121217;
+  --bs-table-hover-bg: #1d1d26;
+  color: #f8fafc !important;
+}
+
+.table-dark thead th,
+.table-header-dark th {
+  background-color: #181820 !important;
+  color: #f5be24 !important; /* Títulos de columnas en dorado para perfecto contraste */
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  padding: 12px 14px !important;
+  border-bottom: 2px solid rgba(229, 168, 0, 0.45) !important;
+}
+
+.table-dark td {
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  padding: 12px 14px !important;
+}
+
+.table-dark .text-muted,
+.table-dark small.text-muted,
+.table-dark td.text-muted {
+  color: #cbd5e1 !important;
+}
+
+.cell-id {
+  color: #fbbf24 !important; /* ID en amarillo/dorado cálido visible y nítido */
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.cell-observaciones {
+  color: #ffffff !important; /* Observaciones en blanco puro para máxima legibilidad */
+  font-size: 0.88rem;
+}
+
+.cell-subtext {
+  color: #cbd5e1 !important;
+  font-size: 0.82rem;
 }
 
 /* =========================================================

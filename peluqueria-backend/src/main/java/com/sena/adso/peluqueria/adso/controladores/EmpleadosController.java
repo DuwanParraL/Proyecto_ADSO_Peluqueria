@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sena.adso.peluqueria.adso.entidades.EmpleadosEntity;
 import com.sena.adso.peluqueria.adso.servicios.EmpleadosServices;
 
-@Controller 
+@RestController 
 @RequestMapping ("/api/empleados")
 public class EmpleadosController {
     private final EmpleadosServices servicio;
@@ -47,19 +47,20 @@ public class EmpleadosController {
     }
 
     @PostMapping 
-    public EmpleadosEntity save(EmpleadosEntity entity){
+    public EmpleadosEntity save(@RequestBody EmpleadosEntity entity){
         return servicio.save(entity);
     }
 
-    @PutMapping 
+    @PutMapping("/{id}")
     public ResponseEntity<EmpleadosEntity> update(@PathVariable Integer id, @RequestBody EmpleadosEntity entity){
         entity.setId(id);
         EmpleadosEntity actualizado = servicio.update(entity);
         if(actualizado == null){
             return ResponseEntity.notFound().build();
-    }
+        }
         return ResponseEntity.ok(actualizado);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (servicio.getById(id).isEmpty()) {
@@ -68,7 +69,4 @@ public class EmpleadosController {
         servicio.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
-
 }

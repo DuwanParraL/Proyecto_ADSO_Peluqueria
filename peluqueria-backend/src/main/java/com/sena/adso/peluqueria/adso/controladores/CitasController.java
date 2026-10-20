@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController 
-@RequestMapping ("/citas")
+@RequestMapping ({"/api/citas", "/citas"})
 public class CitasController {
     
     private final CitasServices servicio;
@@ -59,7 +59,7 @@ public class CitasController {
         return servicio.getAgendaEmpleadoPorFecha(idEmpleado, fecha);
     }
 
-    @GetMapping ("pendientes/contador")
+    @GetMapping ("/pendientes/contador")
     public Map<String, Long> contarPendientes(@RequestParam(required = false) Integer idEmpleado) {
         long total = (idEmpleado!= null)
         ? servicio.contarPendientesEmpleado(idEmpleado)

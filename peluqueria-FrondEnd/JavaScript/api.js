@@ -1,33 +1,45 @@
-
+/**
+ * URBAN LOOK - Cliente API REST para Backend Spring Boot
+ * Conecta el Front-End directamente con MySQL a través de Spring Boot en el puerto 8080.
+ */
 
 const API_CONFIG = {
   BASE_URL: 'http://localhost:8080',
-  TIMEOUT_MS: 3000,
+  TIMEOUT_MS: 10000,
   ENDPOINTS: {
+    // Autenticación
+    LOGIN: '/api/auth/login',
+
     // Servicios
     SERVICIOS: '/api/servicios',
     SERVICIOS_ACTIVOS: '/api/servicios/estado',
-    
+
     // Citas
-    CITAS: '/citas',
-    CITAS_POR_CLIENTE: (idCliente) => `/citas/cliente/${idCliente}`,
-    CITAS_POR_EMPLEADO: (idEmpleado) => `/citas/empleado/${idEmpleado}`,
-    CAMBIAR_ESTADO_CITA: (id, nuevoEstado) => `/citas/${id}/estado/${nuevoEstado}`,
-    
-    // Usuarios y Autenticación
+    CITAS: '/api/citas',
+    CITAS_POR_CLIENTE: (idCliente) => `/api/citas/cliente/${idCliente}`,
+    CITAS_POR_EMPLEADO: (idEmpleado) => `/api/citas/empleado/${idEmpleado}`,
+    CITAS_POR_EMPLEADO_FECHA: (idEmpleado, fecha) => `/api/citas/empleado/${idEmpleado}/fecha/${fecha}`,
+    CAMBIAR_ESTADO_CITA: (id, nuevoEstado) => `/api/citas/${id}/estado/${nuevoEstado}`,
+    CITAS_PENDIENTES_CONTADOR: (idEmpleado) => idEmpleado ? `/api/citas/pendientes/contador?idEmpleado=${idEmpleado}` : '/api/citas/pendientes/contador',
+
+    // Usuarios
     USUARIOS: '/api/usuarios',
     USUARIOS_POR_NOMBRE: (nombres) => `/api/usuarios/findNombres/${nombres}`,
-    
+
+    // Empleados
+    EMPLEADOS: '/api/empleados',
+    EMPLEADOS_ACTIVOS: '/api/empleados/activos',
+    EMPLEADOS_POR_USUARIO: (idUsuario) => `/api/empleados/usuario/${idUsuario}`,
+
     // Roles y Días Libres
-    ROLES: '/roles',
-    DIAS_LIBRES: '/diaslibres'
+    ROLES: '/api/roles',
+    DIAS_LIBRES: '/api/diaslibres'
   }
 };
 
 const UrbanLookAPI = {
-
   /**
-   * Helper genérico para peticiones fetch con timeout y manejo de errores
+   * Helper genérico para peticiones HTTP
    */
   async request(endpoint, options = {}) {
     const url = `${API_CONFIG.BASE_URL}${endpoint}`;
@@ -48,27 +60,35 @@ const UrbanLookAPI = {
 
       clearTimeout(timeoutId);
 
-      if (!response.ok) {
-        throw new Error(`HTTP Error ${response.status}: ${response.statusText}`);
-      }
-
-      // Si la respuesta no tiene contenido (ej: 204 No Content)
+      // Si la respuesta no tiene contenido (204 No Content)
       if (response.status === 204) return null;
 
-      return await response.json();
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        const errorMsg = (data && data.mensaje) || (data && data.error) || `Error ${response.status}: ${response.statusText}`;
+        const error = new Error(errorMsg);
+        error.status = response.status;
+        error.data = data;
+        throw error;
+      }
+
+      return data;
     } catch (error) {
       clearTimeout(timeoutId);
-      console.warn(`[UrbanLookAPI] Backend no disponible o error en ${endpoint}:`, error.message);
+      if (error.name === 'AbortError') {
+        throw new Error('Tiempo de espera agotado al conectar con el servidor.');
+      }
       throw error;
     }
   },
 
   /**
-   * Verifica si el backend en Spring Boot está activo
+   * Verifica el estado de conexión con el backend
    */
   async verificarConexionBackend() {
     try {
-      await this.request(API_CONFIG.ENDPOINTS.SERVICIOS, { method: 'GET' });
+      await this.request(API_CONFIG.ENDPOINTS.SERVICIOS_ACTIVOS, { method: 'GET' });
       return true;
     } catch (err) {
       return false;
@@ -76,87 +96,24 @@ const UrbanLookAPI = {
   },
 
   // ============================================================================
-  // 1. MÓDULO DE SERVICIOS (/api/servicios)
+  // 1. MÓDULO DE AUTENTICACIÓN (/api/auth)
   // ============================================================================
-
   /**
-   * Obtiene todos los servicios registrados desde la base de datos
-   * @returns {Promise<Array>} Lista de servicios
+   * Inicia sesión contra el backend con usuario/correo y contraseña
+   * @param {string} usuario Nombre de usuario o correo electrónico
+   * @param {string} password Contraseña
+   * @returns {Promise<Object>} { idUsuario, usuario, nombreCompleto, idRol, rol, idEmpleado? }
    */
-  async obtenerServicios() {
-    try {
-      return await this.request(API_CONFIG.ENDPOINTS.SERVICIOS, { method: 'GET' });
-    } catch (error) {
-      console.info('[UrbanLookAPI] Usando servicios locales simulados de respaldo.');
-      return null; // El frontend usará el catálogo predeterminado
-    }
-  },
-
-  /**
-   * Registra un nuevo servicio en el backend
-   * @param {Object} servicio { nombre, descripcion, precio, precioPromocion, duracionMinutos, estado }
-   */
-  async crearServicio(servicio) {
-    return await this.request(API_CONFIG.ENDPOINTS.SERVICIOS, {
+  async login(usuario, password) {
+    return await this.request(API_CONFIG.ENDPOINTS.LOGIN, {
       method: 'POST',
-      body: JSON.stringify(servicio)
+      body: JSON.stringify({ usuario, password })
     });
   },
 
   // ============================================================================
-  // 2. MÓDULO DE CITAS (/citas)
+  // 2. MÓDULO DE USUARIOS (/api/usuarios)
   // ============================================================================
-
-  /**
-   * Obtiene todas las citas (para panel de administración)
-   */
-  async obtenerTodasLasCitas() {
-    try {
-      return await this.request(API_CONFIG.ENDPOINTS.CITAS, { method: 'GET' });
-    } catch (error) {
-      return null;
-    }
-  },
-
-  /**
-   * Obtiene las citas de un cliente específico
-   */
-  async obtenerCitasPorCliente(idCliente) {
-    try {
-      return await this.request(API_CONFIG.ENDPOINTS.CITAS_POR_CLIENTE(idCliente), { method: 'GET' });
-    } catch (error) {
-      return null;
-    }
-  },
-
-  /**
-   * Registra una nueva cita en el backend
-   * @param {Object} cita { idCliente, idEmpleado, idServicio, fecha (YYYY-MM-DD), hora (HH:mm:ss), estado, observaciones }
-   */
-  async crearCita(cita) {
-    return await this.request(API_CONFIG.ENDPOINTS.CITAS, {
-      method: 'POST',
-      body: JSON.stringify(cita)
-    });
-  },
-
-  /**
-   * Cambia el estado de una cita (PENDIENTE, EN ATENCION, COMPLETADA, CANCELADA)
-   */
-  async cambiarEstadoCita(idCita, nuevoEstado) {
-    return await this.request(API_CONFIG.ENDPOINTS.CAMBIAR_ESTADO_CITA(idCita, nuevoEstado), {
-      method: 'PUT'
-    });
-  },
-
-  // ============================================================================
-  // 3. MÓDULO DE USUARIOS Y AUTENTICACIÓN (/api/usuarios)
-  // ============================================================================
-
-  /**
-   * Registra un nuevo usuario en la base de datos MySQL
-   * @param {Object} usuario { nombre, apellido, identification, correo, user, password, id_roles }
-   */
   async registrarUsuario(usuario) {
     return await this.request(API_CONFIG.ENDPOINTS.USUARIOS, {
       method: 'POST',
@@ -164,20 +121,170 @@ const UrbanLookAPI = {
     });
   },
 
-  /**
-   * Obtiene todos los usuarios
-   */
   async obtenerUsuarios() {
     return await this.request(API_CONFIG.ENDPOINTS.USUARIOS, { method: 'GET' });
   },
 
-  /**
-   * Busca usuario por nombre o username
-   */
-  async buscarPorNombre(nombre) {
-    return await this.request(API_CONFIG.ENDPOINTS.USUARIOS_POR_NOMBRE(nombre), { method: 'GET' });
+  async obtenerUsuarioPorId(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.USUARIOS}/${id}`, { method: 'GET' });
+  },
+
+  async actualizarUsuario(id, usuario) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.USUARIOS}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(usuario)
+    });
+  },
+
+  async eliminarUsuario(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.USUARIOS}/${id}`, { method: 'DELETE' });
+  },
+
+  async buscarUsuariosPorNombre(nombres) {
+    return await this.request(API_CONFIG.ENDPOINTS.USUARIOS_POR_NOMBRE(nombres), { method: 'GET' });
+  },
+
+  // ============================================================================
+  // 3. MÓDULO DE SERVICIOS (/api/servicios)
+  // ============================================================================
+  async obtenerServicios() {
+    return await this.request(API_CONFIG.ENDPOINTS.SERVICIOS, { method: 'GET' });
+  },
+
+  async obtenerServiciosActivos() {
+    return await this.request(API_CONFIG.ENDPOINTS.SERVICIOS_ACTIVOS, { method: 'GET' });
+  },
+
+  async obtenerServicioPorId(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.SERVICIOS}/${id}`, { method: 'GET' });
+  },
+
+  async crearServicio(servicio) {
+    return await this.request(API_CONFIG.ENDPOINTS.SERVICIOS, {
+      method: 'POST',
+      body: JSON.stringify(servicio)
+    });
+  },
+
+  async actualizarServicio(id, servicio) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.SERVICIOS}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(servicio)
+    });
+  },
+
+  async eliminarServicio(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.SERVICIOS}/${id}`, { method: 'DELETE' });
+  },
+
+  // ============================================================================
+  // 4. MÓDULO DE CITAS (/api/citas)
+  // ============================================================================
+  async obtenerTodasLasCitas() {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS, { method: 'GET' });
+  },
+
+  async obtenerCitasPorCliente(idCliente) {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS_POR_CLIENTE(idCliente), { method: 'GET' });
+  },
+
+  async obtenerCitasPorEmpleado(idEmpleado) {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS_POR_EMPLEADO(idEmpleado), { method: 'GET' });
+  },
+
+  async obtenerAgendaEmpleadoPorFecha(idEmpleado, fecha) {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS_POR_EMPLEADO_FECHA(idEmpleado, fecha), { method: 'GET' });
+  },
+
+  async contarCitasPendientes(idEmpleado = null) {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS_PENDIENTES_CONTADOR(idEmpleado), { method: 'GET' });
+  },
+
+  async crearCita(cita) {
+    return await this.request(API_CONFIG.ENDPOINTS.CITAS, {
+      method: 'POST',
+      body: JSON.stringify(cita)
+    });
+  },
+
+  async cambiarEstadoCita(idCita, nuevoEstado) {
+    return await this.request(API_CONFIG.ENDPOINTS.CAMBIAR_ESTADO_CITA(idCita, nuevoEstado), {
+      method: 'PUT'
+    });
+  },
+
+  async eliminarCita(idCita) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.CITAS}/${idCita}`, { method: 'DELETE' });
+  },
+
+  // ============================================================================
+  // 5. MÓDULO DE EMPLEADOS (/api/empleados)
+  // ============================================================================
+  async obtenerEmpleados() {
+    return await this.request(API_CONFIG.ENDPOINTS.EMPLEADOS, { method: 'GET' });
+  },
+
+  async obtenerEmpleadosActivos() {
+    return await this.request(API_CONFIG.ENDPOINTS.EMPLEADOS_ACTIVOS, { method: 'GET' });
+  },
+
+  async obtenerEmpleadoPorId(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.EMPLEADOS}/${id}`, { method: 'GET' });
+  },
+
+  async obtenerEmpleadoPorUsuario(idUsuario) {
+    return await this.request(API_CONFIG.ENDPOINTS.EMPLEADOS_POR_USUARIO(idUsuario), { method: 'GET' });
+  },
+
+  async crearEmpleado(empleado) {
+    return await this.request(API_CONFIG.ENDPOINTS.EMPLEADOS, {
+      method: 'POST',
+      body: JSON.stringify(empleado)
+    });
+  },
+
+  async actualizarEmpleado(id, empleado) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.EMPLEADOS}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(empleado)
+    });
+  },
+
+  async eliminarEmpleado(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.EMPLEADOS}/${id}`, { method: 'DELETE' });
+  },
+
+  // ============================================================================
+  // 6. MÓDULO DE DÍAS LIBRES (/api/diaslibres)
+  // ============================================================================
+  async obtenerDiasLibres() {
+    return await this.request(API_CONFIG.ENDPOINTS.DIAS_LIBRES, { method: 'GET' });
+  },
+
+  async crearDiaLibre(diaLibre) {
+    return await this.request(API_CONFIG.ENDPOINTS.DIAS_LIBRES, {
+      method: 'POST',
+      body: JSON.stringify(diaLibre)
+    });
+  },
+
+  async actualizarDiaLibre(id, diaLibre) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.DIAS_LIBRES}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(diaLibre)
+    });
+  },
+
+  async eliminarDiaLibre(id) {
+    return await this.request(`${API_CONFIG.ENDPOINTS.DIAS_LIBRES}/${id}`, { method: 'DELETE' });
+  },
+
+  // ============================================================================
+  // 7. MÓDULO DE ROLES (/api/roles)
+  // ============================================================================
+  async obtenerRoles() {
+    return await this.request(API_CONFIG.ENDPOINTS.ROLES, { method: 'GET' });
   }
 };
 
-// Exportar en ventana global para uso directo en todos los scripts del front
 window.UrbanLookAPI = UrbanLookAPI;

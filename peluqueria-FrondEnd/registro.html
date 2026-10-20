@@ -30,20 +30,22 @@
     <h2 class="modal-title-custom">REGISTRARME</h2>
     <p class="modal-subtitle-custom">Crea tu cuenta de cliente en URBAN LOOK</p>
 
-    <form id="formRegistroPagina" onsubmit="event.preventDefault(); alert('¡Cuenta creada exitosamente! Ahora inicia sesión.'); window.location.href='./login.html';">
+    <div id="registro-alert" class="alert d-none py-2 small" role="alert"></div>
+
+    <form id="formRegistroPagina">
       <div class="row g-3">
         <div class="col-12 col-sm-6">
           <label class="form-label text-warning small fw-bold">Nombre</label>
-          <input type="text" class="form-control-dark" placeholder="Tu nombre" required>
+          <input type="text" id="regNombre" class="form-control-dark" placeholder="Tu nombre" required>
         </div>
         <div class="col-12 col-sm-6">
           <label class="form-label text-warning small fw-bold">Apellido</label>
-          <input type="text" class="form-control-dark" placeholder="Tu apellido" required>
+          <input type="text" id="regApellido" class="form-control-dark" placeholder="Tu apellido" required>
         </div>
 
         <div class="col-12 col-sm-6">
           <label class="form-label text-warning small fw-bold">Tipo de Documento</label>
-          <select class="form-control-dark" required>
+          <select id="regTipoDoc" class="form-control-dark" required>
             <option value="CC">Cédula de Ciudadanía (CC)</option>
             <option value="TI">Tarjeta de Identidad (TI)</option>
             <option value="CE">Cédula de Extranjería (CE)</option>
@@ -52,29 +54,36 @@
         </div>
         <div class="col-12 col-sm-6">
           <label class="form-label text-warning small fw-bold">Número de Documento</label>
-          <input type="text" class="form-control-dark" placeholder="Número de documento" required>
+          <input type="text" id="regDocumento" class="form-control-dark" placeholder="Número de documento" required>
         </div>
 
         <div class="col-12 col-sm-6">
           <label class="form-label text-warning small fw-bold">Email</label>
-          <input type="email" class="form-control-dark" placeholder="micompania@correo.com" required>
+          <input type="email" id="regEmail" class="form-control-dark" placeholder="micompania@correo.com" required>
         </div>
         <div class="col-12 col-sm-6">
-          <label class="form-label text-warning small fw-bold">Celular</label>
-          <input type="tel" class="form-control-dark" placeholder="318 000 0000" required>
+          <label class="form-label text-warning small fw-bold">Nombre de Usuario</label>
+          <input type="text" id="regUser" class="form-control-dark" placeholder="usuario_app" required>
         </div>
 
         <div class="col-12 col-sm-6">
-          <label class="form-label text-warning small fw-bold">Contraseña</label>
-          <input type="password" class="form-control-dark" placeholder="Escribe tu contraseña" required>
+          <label class="form-label text-warning small fw-bold">Celular</label>
+          <input type="tel" id="regCelular" class="form-control-dark" placeholder="318 000 0000" required>
         </div>
         <div class="col-12 col-sm-6">
+          <label class="form-label text-warning small fw-bold">Contraseña</label>
+          <input type="password" id="regPassword" class="form-control-dark" placeholder="Escribe tu contraseña" required minlength="4">
+        </div>
+
+        <div class="col-12">
           <label class="form-label text-warning small fw-bold">Verificar Contraseña</label>
-          <input type="password" class="form-control-dark" placeholder="Repite tu contraseña" required>
+          <input type="password" id="regPasswordVerify" class="form-control-dark" placeholder="Repite tu contraseña" required minlength="4">
         </div>
 
         <div class="col-12 mt-4">
-          <button type="submit" class="btn-gold w-100 py-2 fs-6">Registrarse</button>
+          <button type="submit" id="btnRegistrar" class="btn-gold w-100 py-2 fs-6">
+            <i class="bi bi-person-plus-fill me-1"></i> Registrarse
+          </button>
         </div>
 
         <div class="col-12 text-center mt-3">
@@ -85,5 +94,56 @@
   </div>
 
   <script src="./Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./JavaScript/api.js"></script>
+  <script>
+    document.getElementById('formRegistroPagina').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      
+      const alertBox = document.getElementById('registro-alert');
+      const btn = document.getElementById('btnRegistrar');
+      alertBox.className = 'alert d-none py-2 small';
+
+      const nombre = document.getElementById('regNombre').value.trim();
+      const apellido = document.getElementById('regApellido').value.trim();
+      const identification = document.getElementById('regDocumento').value.trim();
+      const correo = document.getElementById('regEmail').value.trim();
+      const user = document.getElementById('regUser').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const passwordVerify = document.getElementById('regPasswordVerify').value;
+
+      if (password !== passwordVerify) {
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = 'Las contraseñas no coinciden.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Registrando...';
+
+      const usuarioData = {
+        nombre: nombre,
+        apellido: apellido,
+        identification: identification,
+        correo: correo,
+        user: user,
+        password: password,
+        id_roles: 1 // Rol CLIENTE por defecto
+      };
+
+      try {
+        await window.UrbanLookAPI.registrarUsuario(usuarioData);
+        alertBox.className = 'alert alert-success py-2 small';
+        alertBox.textContent = '¡Cuenta registrada con éxito en el sistema! Redirigiendo a inicio de sesión...';
+        setTimeout(() => {
+          window.location.href = './login.html';
+        }, 1500);
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-person-plus-fill me-1"></i> Registrarse';
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = `Error al registrar: ${err.message}`;
+      }
+    });
+  </script>
 </body>
 </html>

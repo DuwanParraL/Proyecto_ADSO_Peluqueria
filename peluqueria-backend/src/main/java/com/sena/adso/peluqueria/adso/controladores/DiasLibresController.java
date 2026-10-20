@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController 
-@RequestMapping("/diaslibres")
+@RequestMapping({"/api/diaslibres", "/diaslibres"})
 public class DiasLibresController {
     
     private final DiasLibresServices servicio;

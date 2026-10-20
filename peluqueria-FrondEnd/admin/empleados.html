@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URBAN LOOK - Gestión de Barberos y Personal</title>
+  <link rel="stylesheet" href="../Librerias/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body class="bg-dark text-light">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black border-bottom border-secondary">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="../index.html">
+        URBAN <span class="text-warning">LOOK</span> 
+        <small class="fw-normal text-muted" style="font-size: 0.8rem;">| Panel Administrativo</small>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="adminNavbar">
+        <div class="navbar-nav me-auto">
+          <a class="nav-link text-light" href="./citas.html">
+            <i class="bi bi-calendar2-check me-1"></i> Citas
+          </a>
+          <a class="nav-link active text-warning fw-bold" href="./empleados.html">
+            <i class="bi bi-people-fill me-1"></i> Empleados y Barberos
+          </a>
+          <a class="nav-link text-light" href="./dias_libres.html">
+            <i class="bi bi-calendar-x me-1"></i> Días Libres
+          </a>
+          <a class="nav-link text-muted" href="../index.html">
+            <i class="bi bi-house me-1"></i> Ver Sitio Web
+          </a>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <button onclick="cerrarSesion()" class="btn btn-outline-danger btn-sm">
+            <i class="bi bi-box-arrow-right me-1"></i> Cerrar Sesión
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <div>
+        <h2 class="fw-bold text-white mb-0">Gestión de Barberos y Empleados</h2>
+        <p class="text-muted small mb-0">Administra al personal de trabajo, nombres, habilidades, teléfonos y horarios</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-gold btn-sm" onclick="abrirModalNuevoEmpleado()">
+          <i class="bi bi-person-plus-fill me-1"></i> Agregar Nuevo Barbero
+        </button>
+        <button class="btn btn-outline-warning btn-sm" onclick="cargarEmpleados()">
+          <i class="bi bi-arrow-clockwise me-1"></i> Actualizar
+        </button>
+      </div>
+    </div>
+
+    <div class="card bg-black border border-secondary rounded-3 shadow">
+      <div class="card-header bg-dark border-secondary d-flex justify-content-between align-items-center">
+        <span class="fw-bold text-warning"><i class="bi bi-people me-2"></i> Equipo de Profesionales</span>
+        <span class="text-muted small" id="total-empleados-badge">0 registrados</span>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover align-middle mb-0">
+          <thead>
+            <tr class="table-header-dark">
+              <th>ID</th>
+              <th>Barbero / Nombre</th>
+              <th>Habilidades y Especialidades</th>
+              <th>Teléfono</th>
+              <th>Horario Laboral</th>
+              <th>Estado</th>
+              <th class="text-end">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-empleados-body">
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">
+                <div class="spinner-border text-warning spinner-border-sm me-2"></div>
+                Cargando personal desde la base de datos...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Crear Empleado (Sin requerir ingresar IDs manuales) -->
+  <div class="modal fade" id="modalNuevoEmpleado" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-light border border-secondary">
+        <div class="modal-header border-secondary">
+          <h5 class="modal-title text-warning fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Registrar Nuevo Barbero / Empleado</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Pestañas para elegir modo de adición -->
+          <ul class="nav nav-pills mb-3 border-bottom border-secondary pb-2" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active btn-sm text-uppercase fw-bold" id="tab-nuevo-personal" data-bs-toggle="pill" data-bs-target="#panel-nuevo-personal" type="button">
+                <i class="bi bi-person-plus me-1"></i> Registrar Persona y Barbero (Nuevo)
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link btn-sm text-uppercase fw-bold" id="tab-vincular-usuario" data-bs-toggle="pill" data-bs-target="#panel-vincular-usuario" type="button">
+                <i class="bi bi-link-45deg me-1"></i> Seleccionar de Usuarios Existentes
+              </button>
+            </li>
+          </ul>
+
+          <div id="empleado-modal-alert" class="alert d-none py-2 small" role="alert"></div>
+
+          <div class="tab-content" id="pills-tabContent">
+            <!-- PANEL 1: Registro completo de persona + empleado (Sin IDs manuales) -->
+            <div class="tab-pane fade show active" id="panel-nuevo-personal">
+              <form id="formNuevoBarberoCompleto">
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Nombre</label>
+                    <input type="text" id="nuevoEmpNombre" class="form-control-dark" placeholder="Ej: Camilo" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Apellido</label>
+                    <input type="text" id="nuevoEmpApellido" class="form-control-dark" placeholder="Ej: Vargas" required>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Documento de Identidad</label>
+                    <input type="text" id="nuevoEmpDocumento" class="form-control-dark" placeholder="Número de cédula" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Correo Electrónico</label>
+                    <input type="email" id="nuevoEmpCorreo" class="form-control-dark" placeholder="camilo@urbanlook.com" required>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Nombre de Usuario (Para Iniciar Sesión)</label>
+                    <input type="text" id="nuevoEmpUser" class="form-control-dark" placeholder="camilo_barber" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Contraseña de Acceso</label>
+                    <input type="password" id="nuevoEmpPassword" class="form-control-dark" placeholder="Contraseña de acceso" required minlength="4">
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Teléfono de Contacto</label>
+                    <input type="text" id="nuevoEmpTelefono" class="form-control-dark" placeholder="318 000 0000" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Habilidades y Especialidades</label>
+                    <input type="text" id="nuevoEmpEspecialidades" class="form-control-dark" placeholder="Ej: Fade, Barba Spa, Visagismo" required>
+                  </div>
+
+                  <div class="col-6 col-md-3">
+                    <label class="form-label text-warning small fw-bold">Hora Entrada</label>
+                    <input type="time" id="nuevoEmpHoraEntrada" class="form-control-dark" value="08:00" required>
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label text-warning small fw-bold">Hora Salida</label>
+                    <input type="time" id="nuevoEmpHoraSalida" class="form-control-dark" value="18:00" required>
+                  </div>
+                  <div class="col-12 col-md-6 d-flex align-items-center pt-3">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="nuevoEmpActivo" checked>
+                      <label class="form-check-label text-light fw-bold" for="nuevoEmpActivo">Habilitar barbero como Activo</label>
+                    </div>
+                  </div>
+
+                  <div class="col-12 text-end mt-4">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="btnGuardarNuevoBarbero" class="btn btn-gold">
+                      <i class="bi bi-check-circle-fill me-1"></i> Guardar Barbero
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- PANEL 2: Vincular a usuario existente seleccionando por Nombre -->
+            <div class="tab-pane fade" id="panel-vincular-usuario">
+              <form id="formVincularEmpleado">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label class="form-label text-warning small fw-bold">Selecciona el Usuario por Nombre:</label>
+                    <select id="vincularSelectUsuario" class="form-control-dark" required>
+                      <option value="">Cargando lista de usuarios...</option>
+                    </select>
+                    <small class="text-muted">El sistema tomará automáticamente el ID del usuario seleccionado.</small>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label text-warning small fw-bold">Habilidades y Especialidades</label>
+                    <input type="text" id="vincularEspecialidades" class="form-control-dark" placeholder="Ej: Tijera, Texturas & Color" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label class="form-label text-warning small fw-bold">Teléfono de Contacto</label>
+                    <input type="text" id="vincularTelefono" class="form-control-dark" placeholder="318 000 0000" required>
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label text-warning small fw-bold">Hora Entrada</label>
+                    <input type="time" id="vincularHoraEntrada" class="form-control-dark" value="08:00" required>
+                  </div>
+                  <div class="col-6 col-md-3">
+                    <label class="form-label text-warning small fw-bold">Hora Salida</label>
+                    <input type="time" id="vincularHoraSalida" class="form-control-dark" value="18:00" required>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="vincularActivo" checked>
+                      <label class="form-check-label text-light fw-bold" for="vincularActivo">Habilitar barbero como Activo</label>
+                    </div>
+                  </div>
+
+                  <div class="col-12 text-end mt-4">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="btnGuardarVincular" class="btn btn-gold">
+                      <i class="bi bi-link-45deg me-1"></i> Asignar como Empleado
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../JavaScript/api.js"></script>
+  <script src="../JavaScript/auth.js"></script>
+  <script src="../JavaScript/admin.js"></script>
+  <script>
+    let usuariosRegistrados = [];
+    let mapaUsuarios = {};
+
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarEmpleados();
+    });
+
+    function abrirModalNuevoEmpleado() {
+      const modalEl = document.getElementById('modalNuevoEmpleado');
+      const modal = new bootstrap.Modal(modalEl);
+      poblarSelectUsuariosExistentes();
+      modal.show();
+    }
+
+    async function cargarEmpleados() {
+      const tbody = document.getElementById('tabla-empleados-body');
+      const badgeTotal = document.getElementById('total-empleados-badge');
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted"><div class="spinner-border text-warning spinner-border-sm me-2"></div> Cargando información del personal...</td></tr>`;
+
+      try {
+        // Obtenemos en paralelo empleados y usuarios para mostrar nombres reales
+        const [empleados, usuarios] = await Promise.all([
+          window.UrbanLookAPI.obtenerEmpleados().catch(() => []),
+          window.UrbanLookAPI.obtenerUsuarios().catch(() => [])
+        ]);
+
+        usuariosRegistrados = usuarios || [];
+        mapaUsuarios = {};
+        usuariosRegistrados.forEach(u => {
+          mapaUsuarios[u.id] = u;
+        });
+
+        if (!empleados || empleados.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted">No hay barberos registrados actualmente en la base de datos. Haz clic en "Agregar Nuevo Barbero".</td></tr>`;
+          if (badgeTotal) badgeTotal.textContent = '0 registrados';
+          return;
+        }
+
+        if (badgeTotal) badgeTotal.textContent = `${empleados.length} registrados`;
+        tbody.innerHTML = '';
+
+        empleados.forEach(emp => {
+          const usuario = mapaUsuarios[emp.idUsuario];
+          const nombreCompleto = usuario 
+            ? `${usuario.nombre} ${usuario.apellido}` 
+            : `Usuario #${emp.idUsuario}`;
+          const detalleUsuario = usuario 
+            ? `@${usuario.user} &bull; ${usuario.correo}` 
+            : `ID de Sistema: ${emp.idUsuario}`;
+
+          const tr = document.createElement('tr');
+          const estadoBadge = emp.activo 
+            ? '<span class="badge bg-success">ACTIVO</span>' 
+            : '<span class="badge bg-secondary">INACTIVO</span>';
+
+          tr.innerHTML = `
+            <td class="cell-id">#${emp.id}</td>
+            <td>
+              <div class="fw-bold text-white fs-6"><i class="bi bi-person-badge text-warning me-1"></i>${nombreCompleto}</div>
+              <small class="cell-subtext">${detalleUsuario}</small>
+            </td>
+            <td>
+              <span class="badge bg-dark border border-secondary text-warning">${emp.especialidades || 'General'}</span>
+            </td>
+            <td class="text-white">${emp.telefono || '-'}</td>
+            <td class="text-white">
+              <i class="bi bi-clock me-1 text-warning"></i>${formatearHoraSimple(emp.horaEntrada)} - ${formatearHoraSimple(emp.horaSalida)}
+            </td>
+            <td>${estadoBadge}</td>
+            <td class="text-end">
+              <button class="btn btn-sm ${emp.activo ? 'btn-outline-warning' : 'btn-outline-success'} me-1" 
+                title="${emp.activo ? 'Desactivar Barbero' : 'Activar Barbero'}" 
+                onclick="alternarEstadoEmpleado(${emp.id}, ${!emp.activo}, ${emp.idUsuario}, '${emp.especialidades || ''}', '${emp.telefono || ''}', '${emp.horaEntrada}', '${emp.horaSalida}')">
+                <i class="bi ${emp.activo ? 'bi-pause-circle' : 'bi-play-circle'}"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" title="Eliminar Barbero" onclick="eliminarEmpleado(${emp.id}, '${nombreCompleto}')">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-danger"><i class="bi bi-exclamation-triangle fs-4 d-block mb-1"></i> Error al conectar con el servidor: ${err.message}</td></tr>`;
+      }
+    }
+
+    function formatearHoraSimple(hora) {
+      if (!hora) return '--:--';
+      return hora.substring(0, 5);
+    }
+
+    function poblarSelectUsuariosExistentes() {
+      const select = document.getElementById('vincularSelectUsuario');
+      if (!select) return;
+      select.innerHTML = '<option value="">-- Selecciona una persona por su nombre --</option>';
+
+      usuariosRegistrados.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u.id; // El ID se asigna automáticamente al valor de la opción
+        opt.textContent = `${u.nombre} ${u.apellido} (@${u.user}) - ${u.correo}`;
+        select.appendChild(opt);
+      });
+    }
+
+    // FORMULARIO 1: REGISTRAR NUEVO PERSONAL Y BARBERO (EL ID SE GENERA Y ASIGNA SOLO)
+    document.getElementById('formNuevoBarberoCompleto').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('empleado-modal-alert');
+      const btn = document.getElementById('btnGuardarNuevoBarbero');
+      alertBox.className = 'alert d-none py-2 small';
+
+      const nombre = document.getElementById('nuevoEmpNombre').value.trim();
+      const apellido = document.getElementById('nuevoEmpApellido').value.trim();
+      const documento = document.getElementById('nuevoEmpDocumento').value.trim();
+      const correo = document.getElementById('nuevoEmpCorreo').value.trim();
+      const user = document.getElementById('nuevoEmpUser').value.trim();
+      const password = document.getElementById('nuevoEmpPassword').value;
+      const telefono = document.getElementById('nuevoEmpTelefono').value.trim();
+      const especialidades = document.getElementById('nuevoEmpEspecialidades').value.trim();
+      const horaEntrada = document.getElementById('nuevoEmpHoraEntrada').value + ':00';
+      const horaSalida = document.getElementById('nuevoEmpHoraSalida').value + ':00';
+      const activo = document.getElementById('nuevoEmpActivo').checked;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Registrando...';
+
+      try {
+        // 1. Crear el usuario en la tabla usuarios con rol EMPLEADO (id_roles: 2)
+        const usuarioPayload = {
+          nombre: nombre,
+          apellido: apellido,
+          identification: documento,
+          correo: correo,
+          user: user,
+          password: password,
+          id_roles: 2 // Rol EMPLEADO / BARBERO
+        };
+
+        const usuarioCreado = await window.UrbanLookAPI.registrarUsuario(usuarioPayload);
+        const nuevoIdUsuario = usuarioCreado.id;
+
+        if (!nuevoIdUsuario) {
+          throw new Error('No se pudo obtener el ID autogenerado para el nuevo usuario.');
+        }
+
+        // 2. Crear automáticamente el empleado vinculando el ID generado
+        const empleadoPayload = {
+          idUsuario: nuevoIdUsuario,
+          especialidades: especialidades,
+          telefono: telefono,
+          horaEntrada: horaEntrada,
+          horaSalida: horaSalida,
+          activo: activo
+        };
+
+        await window.UrbanLookAPI.crearEmpleado(empleadoPayload);
+
+        // Cerrar modal y limpiar
+        const modalEl = document.getElementById('modalNuevoEmpleado');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if (modal) modal.hide();
+
+        document.getElementById('formNuevoBarberoCompleto').reset();
+        await cargarEmpleados();
+        alert(`✅ ¡Barbero ${nombre} ${apellido} registrado exitosamente!\n\nSe ha creado su cuenta de usuario y su perfil de empleado con ID asignado automáticamente.`);
+      } catch (err) {
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = `Error al registrar barbero: ${err.message}`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Guardar Barbero';
+      }
+    });
+
+    // FORMULARIO 2: VINCULAR USUARIO EXISTENTE SELECCIONANDO POR NOMBRE
+    document.getElementById('formVincularEmpleado').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const alertBox = document.getElementById('empleado-modal-alert');
+      const btn = document.getElementById('btnGuardarVincular');
+      alertBox.className = 'alert d-none py-2 small';
+
+      const selectUsuario = document.getElementById('vincularSelectUsuario');
+      const idUsuario = parseInt(selectUsuario.value, 10);
+
+      if (!idUsuario) {
+        alertBox.className = 'alert alert-warning py-2 small';
+        alertBox.textContent = 'Por favor selecciona un usuario de la lista desplegable.';
+        return;
+      }
+
+      const especialidades = document.getElementById('vincularEspecialidades').value.trim();
+      const telefono = document.getElementById('vincularTelefono').value.trim();
+      const horaEntrada = document.getElementById('vincularHoraEntrada').value + ':00';
+      const horaSalida = document.getElementById('vincularHoraSalida').value + ':00';
+      const activo = document.getElementById('vincularActivo').checked;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Vinculando...';
+
+      try {
+        const empleadoPayload = {
+          idUsuario: idUsuario,
+          especialidades: especialidades,
+          telefono: telefono,
+          horaEntrada: horaEntrada,
+          horaSalida: horaSalida,
+          activo: activo
+        };
+
+        await window.UrbanLookAPI.crearEmpleado(empleadoPayload);
+
+        const modalEl = document.getElementById('modalNuevoEmpleado');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        if (modal) modal.hide();
+
+        document.getElementById('formVincularEmpleado').reset();
+        await cargarEmpleados();
+        alert('✅ Empleado vinculado exitosamente.');
+      } catch (err) {
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = `Error al asignar empleado: ${err.message}`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-link-45deg me-1"></i> Asignar como Empleado';
+      }
+    });
+
+    async function alternarEstadoEmpleado(id, nuevoEstado, idUsuario, especialidades, telefono, horaEntrada, horaSalida) {
+      try {
+        const payload = {
+          id: id,
+          idUsuario: idUsuario,
+          especialidades: especialidades,
+          telefono: telefono,
+          horaEntrada: horaEntrada.length === 5 ? horaEntrada + ':00' : horaEntrada,
+          horaSalida: horaSalida.length === 5 ? horaSalida + ':00' : horaSalida,
+          activo: nuevoEstado
+        };
+        await window.UrbanLookAPI.actualizarEmpleado(id, payload);
+        await cargarEmpleados();
+      } catch (err) {
+        alert(`Error al actualizar estado del empleado: ${err.message}`);
+      }
+    }
+
+    async function eliminarEmpleado(id, nombre) {
+      if (!confirm(`¿Estás seguro de eliminar al barbero "${nombre}" (#${id})?`)) return;
+      try {
+        await window.UrbanLookAPI.eliminarEmpleado(id);
+        await cargarEmpleados();
+      } catch (err) {
+        alert(`Error al eliminar empleado: ${err.message}`);
+      }
+    }
+  </script>
+</body>
+</html>

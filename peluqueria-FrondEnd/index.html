@@ -28,6 +28,11 @@
 
       <!-- Botón Login o Menú de Perfil -->
       <div class="d-flex align-items-center gap-3">
+        <!-- Indicador de conexión con Backend -->
+        <span id="backend-status-pill" class="badge rounded-pill bg-dark border border-secondary text-muted small d-none d-md-inline-flex align-items-center gap-1 py-1 px-2">
+          <i class="bi bi-circle-fill text-secondary" style="font-size:0.55rem;"></i> Conectando...
+        </span>
+
         <!-- Botón cuando no ha iniciado sesión -->
         <button id="header-btn-login" class="btn-gold btn-open-login">
           <i class="bi bi-person-fill"></i> Iniciar Sesión
@@ -635,23 +640,24 @@
               <div class="col-12 col-md-6">
                 <label class="form-label text-muted small fw-bold">1. Selecciona el Barbero</label>
                 <select id="agenda-barbero-select" class="form-control-dark" required>
-                  <option value="Andrés Morales">Andrés Morales (Barbero Máster)</option>
-                  <option value="Mateo Restrepo">Mateo Restrepo (Estilista Capilar)</option>
-                  <option value="Sebastián Castro">Sebastián Castro (Diseñador Facial)</option>
-                  <option value="Cualquier barbero disponible">Cualquiera disponible</option>
+                  <option value="1">Andrés Morales (Barbero Máster)</option>
+                  <option value="2">Mateo Restrepo (Estilista Capilar)</option>
+                  <option value="3">Sebastián Castro (Diseñador Facial)</option>
                 </select>
               </div>
 
               <div class="col-12 col-md-6">
                 <label class="form-label text-muted small fw-bold">2. Servicio Principal</label>
                 <select id="agenda-servicio-select" class="form-control-dark" required>
-                  <option value="Corte Clásico + Barba ($29.750)">Corte Clásico + Barba ($29.750)</option>
-                  <option value="Fade / Degradado ($22.000)">Fade / Degradado ($22.000)</option>
-                  <option value="Rapado ($18.000)">Rapado Uniforme ($18.000)</option>
-                  <option value="Corte Niño ($20.000)">Corte Niño ($20.000)</option>
-                  <option value="Perfilado Barba ($18.000)">Perfilado de Barba Spa ($18.000)</option>
-                  <option value="Facial Vapor de Ozono ($35.000)">Facial Vapor de Ozono ($35.000)</option>
-                  <option value="Camuflaje Canas ($45.000)">Camuflaje de Canas ($45.000)</option>
+                  <option value="1">Corte Clásico + Barba ($29.750)</option>
+                  <option value="2">Fade / Degradado ($22.000)</option>
+                  <option value="3">Rapado Uniforme ($18.000)</option>
+                  <option value="4">Corte Niño ($20.000)</option>
+                  <option value="5">Perfilado de Barba Spa ($18.000)</option>
+                  <option value="6">Diseño de Cejas ($12.000)</option>
+                  <option value="7">Facial Vapor de Ozono ($35.000)</option>
+                  <option value="8">Alisado Capilar Keratina ($57.000)</option>
+                  <option value="9">Camuflaje de Canas ($45.000)</option>
                 </select>
               </div>
 
@@ -663,13 +669,13 @@
               <div class="col-12 col-md-6">
                 <label class="form-label text-muted small fw-bold">4. Hora</label>
                 <select id="agenda-hora" class="form-control-dark" required>
-                  <option value="09:00 AM">09:00 AM</option>
-                  <option value="10:00 AM">10:00 AM</option>
-                  <option value="11:00 AM">11:00 AM</option>
-                  <option value="02:00 PM">02:00 PM</option>
-                  <option value="03:30 PM">03:30 PM</option>
-                  <option value="05:00 PM">05:00 PM</option>
-                  <option value="06:30 PM">06:30 PM</option>
+                  <option value="09:00:00">09:00 AM</option>
+                  <option value="10:00:00">10:00 AM</option>
+                  <option value="11:00:00">11:00 AM</option>
+                  <option value="14:00:00">02:00 PM</option>
+                  <option value="15:30:00">03:30 PM</option>
+                  <option value="17:00:00">05:00 PM</option>
+                  <option value="18:30:00">06:30 PM</option>
                 </select>
               </div>
 
@@ -710,12 +716,14 @@
       <h3 class="modal-title-custom">Inicio de Sesión</h3>
       <p class="modal-subtitle-custom">Ingresa tu email y contraseña para continuar</p>
 
+      <div id="login-modal-error" class="alert alert-danger d-none py-2 small" role="alert"></div>
+
       <form id="formLoginModal">
         <div class="mb-3">
           <label for="usuarioModal" class="form-label text-warning small fw-bold">Email / Usuario</label>
           <div class="input-group">
-            <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-envelope-fill"></i></span>
-            <input type="text" class="form-control-dark" id="usuarioModal" placeholder="correo@correo.com" required>
+            <span class="input-group-text bg-dark border-secondary text-warning"><i class="bi bi-person-fill"></i></span>
+            <input type="text" class="form-control-dark" id="usuarioModal" placeholder="correo@correo.com o usuario" required>
           </div>
         </div>
 
@@ -730,22 +738,12 @@
           </div>
         </div>
 
-        <!-- Selector de Rol Simulado (Requisito ADSO para probar cliente, barbero y admin) -->
-        <div class="mb-4">
-          <label for="rolSimuladoModal" class="form-label text-warning small fw-bold">Ingresar como (Simulador ADSO):</label>
-          <select class="form-control-dark" id="rolSimuladoModal">
-            <option value="CLIENTE">Cliente / Usuario</option>
-            <option value="EMPLEADO">Empleado / Barbero</option>
-            <option value="ADMIN">Administrador</option>
-          </select>
-        </div>
-
         <div class="d-flex justify-content-between align-items-center mb-4 text-muted small">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="recordarmeCheck" checked>
             <label class="form-check-label text-light" for="recordarmeCheck">Recordarme</label>
           </div>
-          <a href="#" onclick="alert('Funcionalidad de recuperación: se enviará un enlace temporal a tu correo institucional.'); return false;">¿Olvidaste tu contraseña?</a>
+          <a href="#" onclick="alert('Por favor contacta al administrador del sistema.'); return false;">¿Olvidaste tu contraseña?</a>
         </div>
 
         <button type="submit" class="btn-gold w-100 py-2 fs-6 mb-3">
@@ -843,57 +841,122 @@
 
   <script>
     // Función auxiliar para seleccionar barbero desde su tarjeta y abrir agendar
-    function seleccionarBarberoYAgendar(nombreBarbero) {
+    function seleccionarBarberoYAgendar(idOTexto) {
       const selectBarbero = document.getElementById('agenda-barbero-select');
       if (selectBarbero) {
-        selectBarbero.value = nombreBarbero;
+        if (typeof idOTexto === 'number' || !isNaN(Number(idOTexto))) {
+          selectBarbero.value = String(idOTexto);
+        } else if (String(idOTexto).includes('Andrés')) {
+          selectBarbero.value = '1';
+        } else if (String(idOTexto).includes('Mateo')) {
+          selectBarbero.value = '2';
+        } else if (String(idOTexto).includes('Sebastián') || String(idOTexto).includes('Sebastian')) {
+          selectBarbero.value = '3';
+        }
       }
       const agendaTab = document.querySelector('[data-target="section-agendar"]');
       if (agendaTab) agendaTab.click();
     }
 
-    // Procesar agendamiento rápido (Conectado con Spring Boot /citas)
+    // Procesar agendamiento conectado con Spring Boot (/api/citas)
     async function procesarAgendamiento() {
-      const barbero = document.getElementById('agenda-barbero-select').value;
-      const servicio = document.getElementById('agenda-servicio-select').value;
-      const fecha = document.getElementById('agenda-fecha').value;
-      const hora = document.getElementById('agenda-hora').value;
-      const nombre = document.getElementById('agenda-nombre').value;
-      const celular = document.getElementById('agenda-celular').value;
+      const selectBarbero = document.getElementById('agenda-barbero-select');
+      const selectServicio = document.getElementById('agenda-servicio-select');
+      const inputFecha = document.getElementById('agenda-fecha');
+      const selectHora = document.getElementById('agenda-hora');
+      const inputNombre = document.getElementById('agenda-nombre');
+      const inputCelular = document.getElementById('agenda-celular');
 
-      // Estructura de la Cita esperada por CitasEntity en Spring Boot
+      const idEmpleado = parseInt(selectBarbero.value, 10);
+      const idServicio = parseInt(selectServicio.value, 10);
+      const fecha = inputFecha.value;
+      const hora = selectHora.value;
+      const nombre = inputNombre.value.trim();
+      const celular = inputCelular.value.trim();
+
+      // Obtener ID del usuario activo si existe
+      let idCliente = 1;
+      const sesion = window.obtenerUsuarioSesion ? window.obtenerUsuarioSesion() : null;
+      if (sesion && sesion.idUsuario) {
+        idCliente = sesion.idUsuario;
+      }
+
       const citaPayload = {
-        idCliente: 1, // ID del cliente autenticado
-        idEmpleado: barbero.includes('Andrés') ? 1 : (barbero.includes('Mateo') ? 2 : 3),
-        idServicio: servicio.includes('29.750') ? 1 : (servicio.includes('22.000') ? 2 : 3),
-        fecha: fecha, // YYYY-MM-DD
-        hora: hora.includes('AM') ? '09:00:00' : '15:00:00', // HH:mm:ss
+        idCliente: idCliente,
+        idEmpleado: idEmpleado,
+        idServicio: idServicio,
+        fecha: fecha,
+        hora: hora,
         estado: 'PENDIENTE',
         observaciones: `Cliente: ${nombre} - Tel: ${celular}`
       };
 
-      console.log('// CONEXIÓN BACKEND: Enviando cita a http://localhost:8080/citas', citaPayload);
-
       try {
-        if (window.UrbanLookAPI) {
-          await window.UrbanLookAPI.crearCita(citaPayload);
-          alert(`💈 ¡CITA GUARDADA EN EL BACKEND!\n\nCliente: ${nombre}\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\nLos datos se enviaron a Spring Boot (/citas).`);
+        if (!window.UrbanLookAPI) {
+          throw new Error('El cliente API no está disponible.');
         }
+
+        const respuesta = await window.UrbanLookAPI.crearCita(citaPayload);
+        alert(`💈 ¡CITA CONFIRMADA EXITOSAMENTE!\n\nTurno #${respuesta.id || ''}\nFecha: ${fecha} a las ${hora}\nCliente: ${nombre}\n\nTu cita ha sido guardada en la base de datos.`);
+        document.getElementById('formAgendamientoRapido').reset();
       } catch (err) {
-        console.warn('// CONEXIÓN BACKEND: El backend en 8080 no está encendido. Ejecutando en Modo Simulación Local:', err.message);
-        alert(`💈 ¡CITA REGISTRADA (MODO SIMULACIÓN LOCAL)!\n\nCliente: ${nombre}\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\n[NOTA PARA DESARROLLO]: Cuando tu compañero inicie el backend Spring Boot en el puerto 8080, esta cita se guardará automáticamente en MySQL.`);
+        console.error('[Error al agendar]', err);
+        alert(`⚠️ No se pudo reservar el turno:\n\n${err.message}`);
+      }
+    }
+
+    // Configurar fecha mínima de hoy en el calendario y cargar barberos/servicios de la base de datos
+    document.addEventListener('DOMContentLoaded', async () => {
+      const inputFecha = document.getElementById('agenda-fecha');
+      if (inputFecha) {
+        const hoy = new Date().toISOString().split('T')[0];
+        inputFecha.min = hoy;
+        inputFecha.value = hoy;
       }
 
-      document.getElementById('formAgendamientoRapido').reset();
-    }
+      // Cargar barberos dinámicamente desde el backend
+      try {
+        const [empleados, usuarios, servicios] = await Promise.all([
+          window.UrbanLookAPI.obtenerEmpleadosActivos().catch(() => []),
+          window.UrbanLookAPI.obtenerUsuarios().catch(() => []),
+          window.UrbanLookAPI.obtenerServiciosActivos().catch(() => [])
+        ]);
 
-    // Configurar fecha mínima de hoy en el calendario
-    const inputFecha = document.getElementById('agenda-fecha');
-    if (inputFecha) {
-      const hoy = new Date().toISOString().split('T')[0];
-      inputFecha.min = hoy;
-      inputFecha.value = hoy;
-    }
+        if (empleados && empleados.length > 0) {
+          const mapaUsers = {};
+          (usuarios || []).forEach(u => { mapaUsers[u.id] = u; });
+
+          const selectBarbero = document.getElementById('agenda-barbero-select');
+          if (selectBarbero) {
+            selectBarbero.innerHTML = '';
+            empleados.forEach(emp => {
+              const u = mapaUsers[emp.idUsuario];
+              const nombreBarbero = u ? `${u.nombre} ${u.apellido}` : `Barbero #${emp.id}`;
+              const opt = document.createElement('option');
+              opt.value = emp.id;
+              opt.textContent = `${nombreBarbero} (${emp.especialidades || 'General'})`;
+              selectBarbero.appendChild(opt);
+            });
+          }
+        }
+
+        if (servicios && servicios.length > 0) {
+          const selectServicio = document.getElementById('agenda-servicio-select');
+          if (selectServicio) {
+            selectServicio.innerHTML = '';
+            servicios.forEach(s => {
+              const opt = document.createElement('option');
+              opt.value = s.id;
+              const precio = s.precioPromocion || s.precio;
+              opt.textContent = `${s.nombre} ($${Number(precio).toLocaleString('es-CO')})`;
+              selectServicio.appendChild(opt);
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Usando opciones locales de agendamiento');
+      }
+    });
   </script>
 </body>
 </html>

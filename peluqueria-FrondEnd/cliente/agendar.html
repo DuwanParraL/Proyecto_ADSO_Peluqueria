@@ -17,52 +17,59 @@
 </head>
 <body>
 
-  <!-- Barra Superior value-->
-  <nav class="top-header">
+  <!-- Barra Superior -->
+  <header class="top-header">
     <div class="container d-flex justify-content-between align-items-center">
       <a href="../index.html" class="logo-brand">
         URBAN <span>LOOK</span>
       </a>
       <div class="d-flex align-items-center gap-3">
+        <span id="cliente-nombre-header" class="text-warning small d-none d-sm-inline"></span>
         <a href="./catalogo.html" class="btn btn-outline-warning btn-sm">
           <i class="bi bi-grid-fill me-1"></i> Catálogo
         </a>
-        <button onclick="cerrarSesion()" class="btn btn-danger btn-sm">
+        <a href="../index.html" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-house me-1"></i> Inicio
+        </a>
+        <button onclick="cerrarSesion()" class="btn btn-outline-danger btn-sm">
           <i class="bi bi-box-arrow-right me-1"></i> Salir
         </button>
       </div>
     </div>
-  </nav>
+  </header>
 
   <div class="container py-5">
     <div class="glass-box mx-auto" style="max-width: 720px;">
       <div class="text-center mb-4">
         <h2 class="section-header-title mb-2">Agendar Cita</h2>
-        <p class="text-muted">Reserva tu turno en línea con confirmación inmediata</p>
+        <p class="text-muted">Reserva tu turno en línea con confirmación inmediata en el sistema</p>
       </div>
 
-      <form id="formAgendarCliente" onsubmit="event.preventDefault(); confirmarCitaCliente();">
+      <div id="agendar-alert" class="alert d-none py-2 small" role="alert"></div>
+
+      <form id="formAgendarCliente">
         <div class="row g-3">
           <div class="col-12 col-md-6">
             <label class="form-label text-warning small fw-bold">1. Barbero / Especialista</label>
             <select id="selectBarbero" class="form-control-dark" required>
-              <option value="Andrés Morales">Andrés Morales (Barbero Máster)</option>
-              <option value="Mateo Restrepo">Mateo Restrepo (Estilista Capilar)</option>
-              <option value="Sebastián Castro">Sebastián Castro (Diseñador Facial)</option>
-              <option value="Cualquier Barbero">Cualquier barbero disponible</option>
+              <option value="1">Andrés Morales (Barbero Máster)</option>
+              <option value="2">Mateo Restrepo (Estilista Capilar)</option>
+              <option value="3">Sebastián Castro (Diseñador Facial)</option>
             </select>
           </div>
 
           <div class="col-12 col-md-6">
             <label class="form-label text-warning small fw-bold">2. Servicio</label>
             <select id="selectServicio" class="form-control-dark" required>
-              <option value="Corte Clásico + Barba ($29.750)">Corte Clásico + Barba ($29.750)</option>
-              <option value="Fade / Degradado ($22.000)">Fade / Degradado ($22.000)</option>
-              <option value="Rapado Uniforme ($18.000)">Rapado Uniforme ($18.000)</option>
-              <option value="Corte Niño ($20.000)">Corte Niño ($20.000)</option>
-              <option value="Perfilado Barba Spa ($18.000)">Perfilado de Barba Spa ($18.000)</option>
-              <option value="Facial Vapor de Ozono ($35.000)">Facial Vapor de Ozono ($35.000)</option>
-              <option value="Camuflaje Canas ($45.000)">Camuflaje de Canas ($45.000)</option>
+              <option value="1">Corte Clásico + Barba ($29.750)</option>
+              <option value="2">Fade / Degradado ($22.000)</option>
+              <option value="3">Rapado Uniforme ($18.000)</option>
+              <option value="4">Corte Niño ($20.000)</option>
+              <option value="5">Perfilado Barba Spa ($18.000)</option>
+              <option value="6">Diseño de Cejas ($12.000)</option>
+              <option value="7">Facial Vapor de Ozono ($35.000)</option>
+              <option value="8">Alisado Capilar Keratina ($57.000)</option>
+              <option value="9">Camuflaje Canas ($45.000)</option>
             </select>
           </div>
 
@@ -74,23 +81,23 @@
           <div class="col-12 col-md-6">
             <label class="form-label text-warning small fw-bold">4. Hora</label>
             <select id="horaTurno" class="form-control-dark" required>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:30 AM">11:30 AM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:30 PM">03:30 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:30 PM">06:30 PM</option>
+              <option value="09:00:00">09:00 AM</option>
+              <option value="10:00:00">10:00 AM</option>
+              <option value="11:30:00">11:30 AM</option>
+              <option value="14:00:00">02:00 PM</option>
+              <option value="15:30:00">03:30 PM</option>
+              <option value="17:00:00">05:00 PM</option>
+              <option value="18:30:00">06:30 PM</option>
             </select>
           </div>
 
           <div class="col-12">
             <label class="form-label text-warning small fw-bold">Notas o requerimientos especiales (opcional)</label>
-            <textarea class="form-control-dark" rows="3" placeholder="Ej: cabello sensible, preferencia por navaja nueva, etc."></textarea>
+            <textarea id="notasTurno" class="form-control-dark" rows="3" placeholder="Ej: cabello sensible, preferencia por navaja nueva, etc."></textarea>
           </div>
 
           <div class="col-12 mt-4 text-center">
-            <button type="submit" class="btn-gold w-100 py-3 fs-5">
+            <button type="submit" id="btnConfirmarTurno" class="btn-gold w-100 py-3 fs-5">
               <i class="bi bi-calendar-check-fill me-2"></i> Confirmar Cita
             </button>
           </div>
@@ -103,52 +110,125 @@
   <script src="../JavaScript/api.js"></script>
   <script src="../JavaScript/auth.js"></script>
   <script>
-    const inputFecha = document.getElementById('fechaTurno');
-    if (inputFecha) {
-      const hoy = new Date().toISOString().split('T')[0];
-      inputFecha.min = hoy;
-      inputFecha.value = hoy;
-    }
-
-    // Parámetros url si viene desde catálogo
-    const urlParams = new URLSearchParams(window.location.search);
-    const servParam = urlParams.get('servicio');
-    if (servParam) {
-      const sel = document.getElementById('selectServicio');
-      if (servParam === '1') sel.selectedIndex = 0;
-      if (servParam === '2') sel.selectedIndex = 1;
-      if (servParam === '3') sel.selectedIndex = 6;
-    }
-
-    async function confirmarCitaCliente() {
-      const barbero = document.getElementById('selectBarbero').value;
-      const servicio = document.getElementById('selectServicio').value;
-      const fecha = document.getElementById('fechaTurno').value;
-      const hora = document.getElementById('horaTurno').value;
-
-      const nuevaCita = {
-        idCliente: 1,
-        idEmpleado: barbero.includes('Andrés') ? 1 : (barbero.includes('Mateo') ? 2 : 3),
-        idServicio: servicio.includes('29.750') ? 1 : 2,
-        fecha: fecha,
-        hora: hora.includes('AM') ? '09:00:00' : '15:00:00',
-        estado: 'PENDIENTE',
-        observaciones: `Cita desde panel cliente para ${barbero}`
-      };
-
-      try {
-        if (window.UrbanLookAPI) {
-          await window.UrbanLookAPI.crearCita(nuevaCita);
-          console.log('[CONEXIÓN BACKEND] Cita guardada en Spring Boot:', nuevaCita);
-        }
-        alert(`✅ ¡CITA GUARDADA EN EL BACKEND!\n\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\nLos datos fueron enviados a Spring Boot (/citas).`);
-      } catch (err) {
-        console.warn('[CONEXIÓN BACKEND] Backend Spring Boot offline, registrando localmente:', err.message);
-        alert(`✅ ¡CITA REGISTRADA (MODO SIMULACIÓN)!\n\nServicio: ${servicio}\nBarbero: ${barbero}\nFecha: ${fecha} a las ${hora}\n\nSe mostrará en la base de datos cuando el backend esté iniciado.`);
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Configurar fecha mínima
+      const inputFecha = document.getElementById('fechaTurno');
+      if (inputFecha) {
+        const hoy = new Date().toISOString().split('T')[0];
+        inputFecha.min = hoy;
+        inputFecha.value = hoy;
       }
 
-      window.location.href = './catalogo.html';
-    }
+      // Comprobar sesión de usuario
+      const sesion = window.obtenerUsuarioSesion ? window.obtenerUsuarioSesion() : null;
+      const headerNombre = document.getElementById('cliente-nombre-header');
+      if (sesion && headerNombre) {
+        headerNombre.textContent = `Cliente: ${sesion.nombreCompleto || sesion.usuario}`;
+      }
+
+      // Parámetros URL (ej: ?servicio=2)
+      const urlParams = new URLSearchParams(window.location.search);
+      const servParam = urlParams.get('servicio');
+      if (servParam) {
+        const sel = document.getElementById('selectServicio');
+        if (sel) {
+          sel.value = servParam;
+        }
+      }
+
+      // Cargar servicios dinámicamente si el backend está activo
+      try {
+        const servicios = await window.UrbanLookAPI.obtenerServiciosActivos();
+        if (servicios && Array.isArray(servicios) && servicios.length > 0) {
+          const selServ = document.getElementById('selectServicio');
+          selServ.innerHTML = '';
+          servicios.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.id;
+            const precio = s.precioPromocion || s.precio;
+            opt.textContent = `${s.nombre} ($${Number(precio).toLocaleString('es-CO')})`;
+            selServ.appendChild(opt);
+          });
+          if (servParam) selServ.value = servParam;
+        }
+      } catch (e) {
+        console.warn('Usando servicios predeterminados');
+      }
+
+      // Cargar barberos dinámicamente con sus nombres reales desde el backend
+      try {
+        const [empleados, usuarios] = await Promise.all([
+          window.UrbanLookAPI.obtenerEmpleadosActivos().catch(() => []),
+          window.UrbanLookAPI.obtenerUsuarios().catch(() => [])
+        ]);
+
+        if (empleados && Array.isArray(empleados) && empleados.length > 0) {
+          const mapaUsers = {};
+          (usuarios || []).forEach(u => { mapaUsers[u.id] = u; });
+
+          const selBarb = document.getElementById('selectBarbero');
+          selBarb.innerHTML = '';
+          empleados.forEach(emp => {
+            const u = mapaUsers[emp.idUsuario];
+            const nombreBarbero = u ? `${u.nombre} ${u.apellido}` : `Barbero #${emp.id}`;
+            const opt = document.createElement('option');
+            opt.value = emp.id;
+            opt.textContent = `${nombreBarbero} (${emp.especialidades || 'General'})`;
+            selBarb.appendChild(opt);
+          });
+        }
+      } catch (e) {
+        console.warn('Usando barberos predeterminados', e);
+      }
+    });
+
+    // Enviar formulario al backend
+    document.getElementById('formAgendarCliente').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const alertBox = document.getElementById('agendar-alert');
+      const btn = document.getElementById('btnConfirmarTurno');
+      alertBox.className = 'alert d-none py-2 small';
+
+      const sesion = window.obtenerUsuarioSesion ? window.obtenerUsuarioSesion() : null;
+      let idCliente = 1; // Por defecto o usuario autenticado
+      if (sesion && sesion.idUsuario) {
+        idCliente = sesion.idUsuario;
+      }
+
+      const idEmpleado = parseInt(document.getElementById('selectBarbero').value, 10);
+      const idServicio = parseInt(document.getElementById('selectServicio').value, 10);
+      const fecha = document.getElementById('fechaTurno').value;
+      const hora = document.getElementById('horaTurno').value;
+      const notas = document.getElementById('notasTurno').value.trim();
+
+      const nuevaCita = {
+        idCliente: idCliente,
+        idEmpleado: idEmpleado,
+        idServicio: idServicio,
+        fecha: fecha,
+        hora: hora,
+        estado: 'PENDIENTE',
+        observaciones: notas || `Cita agendada por cliente #${idCliente}`
+      };
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Guardando cita...';
+
+      try {
+        const citaCreada = await window.UrbanLookAPI.crearCita(nuevaCita);
+        alertBox.className = 'alert alert-success py-3';
+        alertBox.innerHTML = `<strong>¡Cita confirmada exitosamente!</strong><br>Turno #${citaCreada.id || ''} programado para el día <strong>${fecha}</strong> a las <strong>${hora}</strong>.`;
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-calendar-check-fill me-2"></i> Confirmar Cita';
+        document.getElementById('formAgendarCliente').reset();
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-calendar-check-fill me-2"></i> Confirmar Cita';
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = `⚠️ No se pudo reservar el turno: ${err.message}`;
+      }
+    });
   </script>
 </body>
 </html>

@@ -21,11 +21,9 @@ async function checkBackendStatus() {
       if (online) {
         statusPill.innerHTML = '<i class="bi bi-circle-fill text-success" style="font-size:0.55rem;"></i> Backend: Online (8080)';
         statusPill.className = 'badge rounded-pill bg-success-subtle border border-success text-success small d-none d-md-inline-flex align-items-center gap-1 py-1 px-2';
-        console.log('🟢 [URBAN LOOK] Backend Spring Boot conectado exitosamente en http://localhost:8080');
       } else {
-        statusPill.innerHTML = '<i class="bi bi-circle-fill text-warning" style="font-size:0.55rem;"></i> Backend: Offline (Modo Local)';
-        statusPill.className = 'badge rounded-pill bg-dark border border-warning text-warning small d-none d-md-inline-flex align-items-center gap-1 py-1 px-2';
-        console.info('🟡 [URBAN LOOK] Backend Spring Boot no detectado en http://localhost:8080. La aplicación funciona en modo demostración local.');
+        statusPill.innerHTML = '<i class="bi bi-circle-fill text-danger" style="font-size:0.55rem;"></i> Backend: Desconectado';
+        statusPill.className = 'badge rounded-pill bg-dark border border-danger text-danger small d-none d-md-inline-flex align-items-center gap-1 py-1 px-2';
       }
     }
   }
@@ -263,17 +261,17 @@ function initModals() {
       console.log('// CONEXIÓN BACKEND: Enviando usuario a http://localhost:8080/api/usuarios', nuevoUsuario);
 
       try {
-        if (window.UrbanLookAPI) {
-          await window.UrbanLookAPI.registrarUsuario(nuevoUsuario);
-          alert(`✅ ¡CUENTA CREADA EN LA BASE DE DATOS!\n\nBienvenido ${nombre} ${apellido}.\nTu usuario ha sido registrado en Spring Boot / MySQL.`);
+        if (!window.UrbanLookAPI) {
+          throw new Error('Cliente API no disponible.');
         }
+        await window.UrbanLookAPI.registrarUsuario(nuevoUsuario);
+        alert(`✅ ¡Cuenta creada exitosamente en la base de datos!\n\nBienvenido ${nombre} ${apellido}. Ahora puedes iniciar sesión.`);
+        closeModal('modal-registro');
+        openModal('modal-login');
       } catch (err) {
-        console.warn('// CONEXIÓN BACKEND: Backend offline. Guardando simulado:', err.message);
-        alert(`✅ ¡CUENTA REGISTRADA (MODO SIMULACIÓN)!\n\nBienvenido ${nombre}.\n[NOTA PARA DESARROLLO]: Cuando tu compañero inicie el backend Spring Boot en el puerto 8080, el registro se guardará en MySQL.`);
+        console.error('[Error de registro]', err);
+        alert(`⚠️ No se pudo registrar la cuenta:\n\n${err.message}`);
       }
-
-      closeModal('modal-registro');
-      openModal('modal-login');
     });
   }
 

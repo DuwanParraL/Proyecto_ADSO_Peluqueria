@@ -1,113 +1,55 @@
-# Prompt de contexto completo - URBAN LOOK / Peluqueria ADSO
+# Contexto completo del proyecto — Urban Look / Peluquería ADSO
 
-Usa este documento como contexto obligatorio antes de analizar, depurar, explicar o modificar este proyecto. Lee el codigo real antes de asumir comportamientos. Distingue entre funcionalidad implementada, funcionalidad simulada, archivos vacios, datos estaticos y codigo no conectado.
+Usa este documento como contexto obligatorio antes de analizar, explicar, depurar o modificar el proyecto. Lee siempre el código actual antes de asumir comportamientos. Distingue entre funcionalidades implementadas, simuladas, estáticas, incompletas y realmente conectadas al backend.
 
-## Instruccion principal
+## 1. Repositorio y estado de trabajo
 
-Actua como ingeniero senior responsable del repositorio. Antes de realizar cambios:
-
-1. Identifica el archivo exacto que controla el comportamiento.
-2. Determina si el problema pertenece al frontend, al servidor Node, al backend Spring Boot, a JPA, a MySQL o a varias capas.
-3. Respeta los nombres actuales de archivos, clases, variables, rutas y endpoints.
-4. No inventes credenciales, permisos, relaciones, validaciones ni funcionalidades.
-5. Conserva el codigo no relacionado con la tarea.
-6. Comprueba los contratos entre frontend y backend.
-7. Ejecuta la validacion mas cercana disponible despues de modificar.
-8. Informa los archivos afectados, la validacion y las limitaciones pendientes.
-
-No confundas una pantalla visual con una funcionalidad conectada al backend.
-
-## Ubicacion
-
-Raiz del proyecto:
-
-`c:\Users\Usuario\Desktop\peluqueria adso`
-
-El nombre `peluqueria-FrondEnd` esta escrito asi en el repositorio. Debe conservarse exactamente en las rutas.
-
-## Arbol del proyecto
+Ruta absoluta:
 
 ```text
-peluqueria adso/
-├── .gitignore
-├── .vscode/settings.json
-├── index.html
-├── server.js
-├── docs/
-│   ├── PROMPT_MAESTRO_CONTEXTUALIZADO.md
-│   └── PROMPT_CONTEXTO_COMPLETO.md
-├── peluqueria-FrondEnd/
-│   ├── index.html
-│   ├── login.html
-│   ├── registro.html
-│   ├── admin/
-│   │   ├── citas.html
-│   │   ├── dias_libres.html
-│   │   └── empleados.html
-│   ├── cliente/
-│   │   ├── agendar.html
-│   │   └── catalogo.html
-│   ├── css/estilos.css
-│   ├── JavaScript/
-│   │   ├── api.js
-│   │   ├── auth.js
-│   │   ├── cliente.js
-│   │   ├── admin.js
-│   │   └── main.js
-│   ├── img/
-│   └── Librerias/
-│       ├── bootstrap/css/bootstrap.min.css
-│       ├── bootstrap/js/bootstrap.bundle.min.js
-│       └── jquery/jquery-4.0.0.min.js
-└── peluqueria-backend/
-    ├── pom.xml
-    ├── mvnw
-    ├── mvnw.cmd
-    ├── .mvn/wrapper/maven-wrapper.properties
-    ├── src/main/resources/application.properties
-    ├── src/main/java/com/sena/adso/peluqueria/adso/
-    │   ├── PeluqueriaAdsoApplication.java
-    │   ├── ServletInitializer.java
-    │   ├── configuracion/corsConfig.java
-    │   ├── controladores/
-    │   │   ├── AuthController.java
-    │   │   ├── CitasController.java
-    │   │   ├── DiasLibresController.java
-    │   │   ├── EmpleadosController.java
-    │   │   ├── RolesController.java
-    │   │   ├── ServiciosController.java
-    │   │   └── usuariosController.java
-    │   ├── entidades/
-    │   │   ├── CitasEntity.java
-    │   │   ├── DiasLibresEntity.java
-    │   │   ├── EmpleadosEntity.java
-    │   │   ├── RolesEntity.java
-    │   │   ├── ServiciosEntity.java
-    │   │   └── UsuariosEntity.java
-    │   ├── repositorios/
-    │   │   ├── CitasRepository.java
-    │   │   ├── DiasLibreRepository.java
-    │   │   ├── EmpleadosRepository.java
-    │   │   ├── RolesRepository.java
-    │   │   ├── ServiciosRepository.java
-    │   │   └── UsuariosRepository.java
-    │   └── servicios/
-    │       ├── CitasServices.java
-    │       ├── DiasLibresServices.java
-    │       ├── EmpleadosServices.java
-    │       ├── RolesServices.java
-    │       ├── ServiciosServices.java
-    │       ├── UsuariosServices.java
-    │       └── usuariosEntity.java
-    └── src/test/java/com/sena/adso/peluqueria/adso/
-        └── PeluqueriaAdsoApplicationTests.java
+C:\Users\Usuario\Desktop\peluqueria adso
 ```
 
-`peluqueria-backend/target/` es salida generada de Maven y no es fuente de verdad.
+Repositorio:
 
-## Arquitectura y arranque
+```text
+https://github.com/DuwanParraL/Proyecto_ADSO_Peluqueria
+```
 
-El frontend es HTML, CSS y JavaScript. `server.js` solo sirve archivos estaticos. El backend es una API REST con Spring Boot, Spring Data JPA y MySQL.
+Rama actual:
+
+```text
+main
+```
+
+Rama remota:
+
+```text
+origin/main
+```
+
+Commit observado:
+
+```text
+7b9af59 preventivo
+```
+
+El árbol de trabajo contiene cambios locales previos. No se deben sobrescribir, revertir, eliminar ni confirmar sin autorización explícita. Antes de editar un archivo, comprobar siempre `git status` y revisar sus cambios locales.
+
+Cambios locales observados:
+
+- Eliminación de `docs/PROMPT_CONTEXTO_COMPLETO.md`.
+- Modificaciones en varios archivos del frontend y backend.
+- Archivo nuevo local `iniciar-backend.bat`.
+- El documento actual se está creando nuevamente por solicitud expresa del usuario.
+
+## 2. Arquitectura general
+
+El proyecto tiene tres capas principales:
+
+1. **Frontend estático:** HTML, CSS, JavaScript, Bootstrap local y jQuery local.
+2. **Servidor Node.js:** `server.js`, encargado únicamente de servir archivos estáticos.
+3. **Backend REST:** Spring Boot, Spring Data JPA, MySQL y Java 21.
 
 Flujo:
 
@@ -118,24 +60,185 @@ Navegador
   -> peluqueria-FrondEnd
   -> JavaScript/api.js
   -> http://localhost:8080
-  -> controladores Spring
-  -> servicios Java
-  -> repositorios JPA
+  -> Controladores Spring Boot
+  -> Servicios
+  -> Repositorios JPA
   -> MySQL: peluqueria_adso
 ```
 
-Frontend:
+## 3. Estructura y ubicación de documentos
+
+### Archivos raíz
+
+```text
+C:\Users\Usuario\Desktop\peluqueria adso\.gitignore
+C:\Users\Usuario\Desktop\peluqueria adso\index.html
+C:\Users\Usuario\Desktop\peluqueria adso\server.js
+C:\Users\Usuario\Desktop\peluqueria adso\iniciar-backend.bat
+```
+
+### Documentación
+
+```text
+C:\Users\Usuario\Desktop\peluqueria adso\docs\
+C:\Users\Usuario\Desktop\peluqueria adso\docs\PROMPT_CONTEXTO_COMPLETO.md
+```
+
+### Frontend
+
+Ruta base:
+
+```text
+C:\Users\Usuario\Desktop\peluqueria adso\peluqueria-FrondEnd\
+```
+
+Páginas:
+
+```text
+peluqueria-FrondEnd\index.html
+peluqueria-FrondEnd\login.html
+peluqueria-FrondEnd\registro.html
+peluqueria-FrondEnd\admin\citas.html
+peluqueria-FrondEnd\admin\dias_libres.html
+peluqueria-FrondEnd\admin\empleados.html
+peluqueria-FrondEnd\cliente\agendar.html
+peluqueria-FrondEnd\cliente\catalogo.html
+```
+
+JavaScript:
+
+```text
+peluqueria-FrondEnd\JavaScript\api.js
+peluqueria-FrondEnd\JavaScript\auth.js
+peluqueria-FrondEnd\JavaScript\cliente.js
+peluqueria-FrondEnd\JavaScript\admin.js
+peluqueria-FrondEnd\JavaScript\main.js
+```
+
+Estilos:
+
+```text
+peluqueria-FrondEnd\css\estilos.css
+```
+
+Librerías locales:
+
+```text
+peluqueria-FrondEnd\Librerias\bootstrap\css\bootstrap.min.css
+peluqueria-FrondEnd\Librerias\bootstrap\js\bootstrap.bundle.min.js
+peluqueria-FrondEnd\Librerias\jquery\jquery-4.0.0.min.js
+```
+
+Imágenes:
+
+```text
+peluqueria-FrondEnd\img\
+```
+
+Las imágenes y librerías minificadas son recursos visuales o de terceros. No modificarlas salvo solicitud expresa.
+
+### Backend
+
+Ruta base:
+
+```text
+C:\Users\Usuario\Desktop\peluqueria adso\peluqueria-backend\
+```
+
+Construcción y configuración:
+
+```text
+peluqueria-backend\pom.xml
+peluqueria-backend\mvnw
+peluqueria-backend\mvnw.cmd
+peluqueria-backend\src\main\resources\application.properties
+```
+
+Clases principales:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\PeluqueriaAdsoApplication.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\ServletInitializer.java
+```
+
+Configuración:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\configuracion\corsConfig.java
+```
+
+Controladores:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\AuthController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\CitasController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\DiasLibresController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\EmpleadosController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\RolesController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\ServiciosController.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\controladores\usuariosController.java
+```
+
+Entidades:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\CitasEntity.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\DiasLibresEntity.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\EmpleadosEntity.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\RolesEntity.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\ServiciosEntity.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\entidades\UsuariosEntity.java
+```
+
+Repositorios:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\CitasRepository.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\DiasLibreRepository.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\EmpleadosRepository.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\RolesRepository.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\ServiciosRepository.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\repositorios\UsuariosRepository.java
+```
+
+Servicios:
+
+```text
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\CitasServices.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\DiasLibresServices.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\EmpleadosServices.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\RolesServices.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\ServiciosServices.java
+peluqueria-backend\src\main\java\com\sena\adso\peluqueria\adso\servicios\UsuariosServices.java
+```
+
+Pruebas:
+
+```text
+peluqueria-backend\src\test\java\com\sena\adso\peluqueria\adso\PeluqueriaAdsoApplicationTests.java
+```
+
+`peluqueria-backend\target\` es salida generada de Maven y no es fuente de verdad.
+
+## 4. Arranque
+
+### Frontend
+
+Desde la raíz:
 
 ```powershell
 node server.js
 ```
 
-- Puerto: `3000`.
-- Escucha en `0.0.0.0`.
-- Sirve `peluqueria-FrondEnd`.
-- No procesa API, sesiones ni base de datos.
+URL:
 
-Backend, desde `peluqueria-backend`:
+```text
+http://localhost:3000
+```
+
+### Backend
+
+Desde `peluqueria-backend`:
 
 ```powershell
 .\mvnw.cmd spring-boot:run
@@ -143,322 +246,79 @@ Backend, desde `peluqueria-backend`:
 .\mvnw.cmd clean package
 ```
 
-- Puerto predeterminado: `8080`.
-- Java: `21`.
-- Empaquetado: `war`.
+URL predeterminada:
 
-## server.js
-
-Archivo: `server.js`
-
-Variables:
-
-- `http`
-- `fs`
-- `path`
-- `PORT = 3000`
-- `BASE_DIR`
-- `MIME_TYPES`
-- `server`
-- `req`
-- `res`
-- `reqPath`
-- `filePath`
-- `err`
-- `stats`
-- `ext`
-- `contentType`
-- `os`
-- `nets`
-- `name`
-- `net`
-- `ip`
-
-Funcion:
-
-- `getLocalIp()` busca la primera interfaz IPv4 no interna.
-
-Comportamiento:
-
-- `/` se convierte en `/index.html`.
-- Se sirven HTML, CSS, JS, JSON, PNG, JPG, JPEG, GIF, SVG e ICO.
-- Los archivos inexistentes devuelven `404 Not Found`.
-- La raiz `/index.html` redirige a `./peluqueria-FrondEnd/index.html` mediante `meta refresh` y `window.location.replace`.
-
-## Frontend
-
-### peluqueria-FrondEnd/index.html
-
-Pagina principal de URBAN LOOK.
-
-Incluye navegacion, login, registro, profesionales, servicios, historia, resenas, contacto, formulario rapido de citas, modales y carrito visual.
-
-Profesionales estaticos:
-
-- Andres Morales.
-- Mateo Restrepo.
-- Sebastian Castro.
-
-Categorias de servicios:
-
-- `all`
-- `cabello`
-- `barba`
-- `cejas`
-- `faciales`
-- `promos`
-
-Funciones inline:
-
-- `seleccionarBarberoYAgendar(nombreBarbero)`
-- `procesarAgendamiento()`
-
-Carga `api.js`, `auth.js`, `main.js`, Bootstrap y jQuery. El catalogo principal es HTML estatico; no se alimenta directamente de `GET /api/servicios`.
-
-### login.html
-
-Login independiente. Contiene usuario, password y seleccion visual de rol:
-
-- `CLIENTE`
-- `EMPLEADO`
-- `ADMIN`
-
-No valida contra Spring Boot. Guarda el usuario en `localStorage` mediante `auth.js`.
-
-### registro.html
-
-Registro visual independiente con nombre, apellido, tipo y numero de documento, correo, celular, password y confirmacion.
-
-Actualmente muestra un `alert` y redirige a `login.html`. No llama al backend ni persiste datos.
-
-### cliente/catalogo.html
-
-Catalogo estatico de tres servicios. Usa enlaces `agendar.html?servicio=1`, `2` y `3`. No consume `/api/servicios`.
-
-### cliente/agendar.html
-
-Formulario de barbero, servicio, fecha, hora y notas.
-
-Funcion principal:
-
-- `confirmarCitaCliente()`
-
-Objeto enviado:
-
-- `idCliente`
-- `idEmpleado`
-- `idServicio`
-- `fecha`
-- `hora`
-- `estado`
-- `observaciones`
-
-Mapeo actual:
-
-- Andres: empleado `1`.
-- Mateo: empleado `2`.
-- Otra opcion: empleado `3`.
-- Precio `29.750`: servicio `1`.
-- Otro servicio: servicio `2`.
-- AM: `09:00:00`.
-- PM: `15:00:00`.
-- Estado: `PENDIENTE`.
-
-Usa `UrbanLookAPI.crearCita()`. El cliente queda fijo en `1`, no se resuelve desde una sesion real y no se comprueba disponibilidad desde el formulario.
-
-### admin/citas.html
-
-Panel visual de citas.
-
-Endpoints:
-
-- `GET /citas`
-- `PUT /citas/{id}/estado/{estado}`
-
-Estados usados:
-
-- `COMPLETADA`
-- `CANCELADA`
-
-Tiene citas precargadas y fallback visual. No valida autenticacion ni rol. La ruta CSS `./css/estilos.css` es probablemente incorrecta desde la carpeta `admin`; la ruta esperada seria `../css/estilos.css`.
-
-### Archivos vacios
-
-- `admin/dias_libres.html`
-- `admin/empleados.html`
-- `JavaScript/cliente.js`
-- `JavaScript/admin.js`
-- `servicios/usuariosEntity.java` en el backend no tiene uso funcional conocido.
-
-## JavaScript
-
-### JavaScript/api.js
-
-Configuracion:
-
-- `API_CONFIG.BASE_URL = 'http://localhost:8080'`
-- `API_CONFIG.TIMEOUT_MS = 3000`
-- `API_CONFIG.ENDPOINTS`
-
-Endpoints configurados:
-
-- `/api/servicios`
-- `/api/servicios/estado`
-- `/citas`
-- `/citas/cliente/{id}`
-- `/citas/empleado/{id}`
-- `/citas/{id}/estado/{estado}`
-- `/api/usuarios`
-- `/api/usuarios/findNombres/{nombres}`
-- `/roles`
-- `/diaslibres`
-
-Objeto global: `window.UrbanLookAPI`.
-
-Metodos:
-
-- `request(endpoint, options)`
-- `verificarConexionBackend()`
-- `obtenerServicios()`
-- `crearServicio(servicio)`
-- `obtenerTodasLasCitas()`
-- `obtenerCitasPorCliente(idCliente)`
-- `crearCita(cita)`
-- `cambiarEstadoCita(idCita, nuevoEstado)`
-- `registrarUsuario(usuario)`
-- `obtenerUsuarios()`
-- `buscarPorNombre(nombre)`
-
-`request` combina la URL base, agrega JSON headers, usa `fetch`, `AbortController` y timeout de tres segundos, lanza errores HTTP, devuelve `null` para `204` y convierte las demas respuestas a JSON.
-
-### JavaScript/auth.js
-
-Funciones:
-
-- `procesarInicioSesion(usuario, rol, origen)`
-- `cerrarSesion()`
-
-Clave de almacenamiento:
-
-- `localStorage.usuarioActivo`
-
-Estructura:
-
-```json
-{
-  "usuario": "...",
-  "rol": "CLIENTE|EMPLEADO|ADMIN",
-  "fechaLogin": "..."
-}
+```text
+http://localhost:8080
 ```
 
-No hay JWT, cookies, token, password real ni autorizacion backend.
+El archivo `iniciar-backend.bat` usa una ruta absoluta de Maven perteneciente al entorno local y puede no funcionar en otros equipos.
 
-### JavaScript/main.js
+## 5. Frontend y contratos
 
-Funciones:
+`server.js` solo sirve archivos estáticos. No autentica usuarios, no administra sesiones y no accede directamente a MySQL.
 
-- `initNavigation()`
-- `initServicesFilter()`
-- `initServiceSelection()`
-- `initSubtabs()`
-- `initModals()`
-- `openModal(modalId)`
-- `closeModal(modalId)`
-- `checkSessionStatus()`
-- `checkBackendStatus()`
+`api.js` configura:
 
-Variables y elementos relevantes:
+```javascript
+BASE_URL: 'http://localhost:8080'
+TIMEOUT_MS: 10000
+```
 
-- `selectedServices`
-- `usuarioActivo`
-- `backend-status-pill`
-- `formLoginModal`
-- `formLogin`
-- `regPassword`
-- `regPasswordVerify`
-- `loginModal`
-- `registerModal`
+El objeto global de integración es:
 
-El registro modal usa `POST /api/usuarios` y envia `nombre`, `apellido`, `identification`, `correo`, `user`, `password` e `id_roles: 1`. Lee celular y tipo de documento, pero no los envia. No valida correctamente la confirmacion de password.
+```javascript
+window.UrbanLookAPI
+```
 
-## CSS y librerias
+Endpoints principales:
 
-`css/estilos.css` define tema oscuro premium con acentos dorados, variables CSS, tipografias, layout responsive, header, hero, tarjetas, servicios, carrito, formularios, modales, perfil y footer.
+- `POST /api/auth/login`
+- `GET /api/servicios`
+- `GET /api/servicios/estado`
+- `GET /api/citas`
+- `GET /api/citas/cliente/{idCliente}`
+- `GET /api/citas/empleado/{idEmpleado}`
+- `GET /api/citas/empleado/{idEmpleado}/fecha/{fecha}`
+- `GET /api/citas/pendientes/contador`
+- `POST /api/citas`
+- `PUT /api/citas/{id}`
+- `PUT /api/citas/{id}/estado/{estado}`
+- `DELETE /api/citas/{id}`
+- Operaciones CRUD de usuarios, empleados, roles y días libres.
 
-Bootstrap y jQuery estan almacenados localmente en `Librerias/`. No asumir que jQuery es necesario, porque el codigo propio usa principalmente JavaScript nativo y `fetch`.
+Antes de cambiar una llamada, comparar método HTTP, ruta, parámetros, nombres JSON, respuesta y códigos de estado del controlador Java.
 
-Las imagenes de `img/` son recursos binarios visuales. No son codigo ni deben modificarse salvo solicitud expresa.
+`auth.js` gestiona el estado visual mediante:
 
-## Backend Java
+```text
+localStorage.usuarioActivo
+```
 
-Paquete raiz:
+Esto no constituye autenticación ni autorización segura. No asumir que un rol guardado en `localStorage` protege un endpoint.
 
-`com.sena.adso.peluqueria.adso`
+## 6. Backend, entidades y base de datos
 
-### Entidades
+Tecnologías:
 
-`CitasEntity` -> tabla `citas`:
+- Spring Boot 4.1.1.
+- Java 21.
+- Spring Data JPA.
+- Spring Web MVC.
+- Spring Actuator.
+- MySQL Connector/J.
+- Empaquetado WAR.
 
-- `id: Integer`
-- `idCliente: Integer`
-- `idEmpleado: Integer`
-- `idServicio: Integer`
-- `fecha: LocalDate`
-- `hora: LocalTime`
-- `estado: String`, inicial `PENDIENTE`
-- `observaciones: String`
+Tablas principales:
 
-`DiasLibresEntity` -> tabla `dias_libres`:
+- `citas`
+- `dias_libres`
+- `empleados`
+- `roles`
+- `servicios`
+- `usuarios`
 
-- `id: Integer`
-- `idEmpleado: Integer`
-- `fecha: LocalDate`
-- `motivo: String`
-- `estado: String`, inicial `APROBADO`
-
-`EmpleadosEntity` -> tabla `empleados`:
-
-- `id: Integer`
-- `idUsuario: Integer`
-- `especialidades: String`
-- `telefono: String`
-- `horaEntrada: LocalTime`, inicial `08:00`
-- `horaSalida: LocalTime`, inicial `17:00`
-- `activo: Boolean`, inicial `true`
-
-Importante: el campo real es `activo`, no `estado`.
-
-`RolesEntity` -> tabla `roles`:
-
-- `id: Integer`
-- `nombre: String`, obligatorio y unico
-- `descripcion: String`
-
-`ServiciosEntity` -> tabla `servicios`:
-
-- `id: Integer`
-- `nombre: String`
-- `descripcion: String`
-- `precio: Double`
-- `precioPromocion: Double`
-- `duracionMinutos: Integer`
-- `estado: Boolean`, inicial `true`
-
-`UsuariosEntity` -> tabla `usuarios`:
-
-- `id: Integer`
-- `nombre: String`
-- `apellido: String`
-- `identification: String`
-- `correo: String`
-- `user: String`
-- `password: String`
-- `id_roles: Integer`
-
-La password tiene acceso JSON de escritura solamente, pero se almacena sin hashing.
-
-No existen relaciones JPA `@ManyToOne` ni `@OneToMany`. Las relaciones son solo IDs enteros:
+Las relaciones principales se representan mediante IDs enteros:
 
 ```text
 Usuarios.id_roles -> Roles.id
@@ -469,163 +329,9 @@ Citas.idServicio -> Servicios.id
 DiasLibres.idEmpleado -> Empleados.id
 ```
 
-### Repositorios
+No asumir relaciones JPA (`@ManyToOne`, `@OneToMany`) si no están declaradas en el código actual.
 
-`CitasRepository`:
-
-- `findByIdCliente(idCliente)`
-- `findByIdEmpleado(idEmpleado)`
-- `findByEmpleadoAndFecha(idEmpleado, fecha)`
-- `existeTurnoOcupado(idEmpleado, fecha, hora)`
-- `contarPendientesPorEmpleado(idEmpleado)`
-- `contarTodosLosPendientes()`
-- `findByEstado(estado)`
-
-`DiasLibreRepository`:
-
-- `FindByIdEmpleado(idEmpleado)`
-- `tienenDiasAprobados(idEmpleado, fecha)`
-
-`EmpleadosRepository`:
-
-- `findByActivoTrue()`
-- `findByUsuario(idUsuario)`
-
-`RolesRepository`: operaciones heredadas de `JpaRepository`.
-
-`ServiciosRepository`:
-
-- `findByEstadoTrue()`
-
-`UsuariosRepository`:
-
-- `findByNombreLike(nombre)`
-- `findByUserOrCorreo(credencial)`
-- `findByIdRoles(id_roles)`
-
-Riesgo: revisar las consultas JPQL que usen `c.id_empleado`; JPQL debe utilizar propiedades Java como `idEmpleado`.
-
-### Servicios
-
-`CitasServices`:
-
-- CRUD de citas.
-- Consultas por cliente, empleado y fecha.
-- Conteo de pendientes.
-- `validarDisponibilidadPeluquero(entity)`.
-- `CambiarEstado(id, nuevoEstado)`.
-
-La validacion revisa dia libre aprobado, empleado activo, horario laboral y citas ocupadas no canceladas. No restringe completamente los estados posibles.
-
-`DiasLibresServices`: CRUD completo.
-
-`EmpleadosServices`:
-
-- CRUD.
-- `getByUsuarios(idUsuario)`.
-- `getActivos()`.
-
-`RolesServices`: CRUD completo.
-
-`ServiciosServices`:
-
-- CRUD.
-- `getActive()`.
-
-`UsuariosServices`:
-
-- `getdAll()`.
-- `getById(id)`.
-- `save(entity)`.
-- `update(entity)`.
-- `delete(id)`.
-- `getByNombres(nombres)`.
-
-## API REST
-
-`AuthController`:
-
-- Base: `/api/auth`
-- `POST /api/auth/login`
-
-Recibe:
-
-```json
-{
-  "usuario": "correo_o_usuario",
-  "password": "contraseña"
-}
-```
-
-Devuelve datos de usuario, rol y, si existe, datos del empleado asociado. El frontend actual no usa este endpoint.
-
-`CitasController`:
-
-- `GET /citas`
-- `GET /citas/{id}`
-- `GET /citas/cliente/{idCliente}`
-- `GET /citas/empleado/{idEmpleado}`
-- `GET /citas/empleado/{idEmpleado}/fecha/{fecha}`
-- `GET /citas/pendientes/contador`
-- `GET /citas/pendientes/contador?idEmpleado={idEmpleado}`
-- `POST /citas`
-- `PUT /citas/{id}`
-- `PUT /citas/{id}/estado/{nuevoEstado}`
-- `DELETE /citas/{id}`
-
-`DiasLibresController`:
-
-- `GET /diaslibres`
-- `GET /diaslibres/{id}`
-- `POST /diaslibres`
-- `PUT /diaslibres/{id}`
-- `DELETE /diaslibres/{id}`
-
-`EmpleadosController`:
-
-- `GET /api/empleados`
-- `GET /api/empleados/activos`
-- `GET /api/empleados/{id}`
-- `GET /api/empleados/usuario/{idUsuario}`
-- `POST /api/empleados`
-- `PUT /api/empleados`
-- `DELETE /api/empleados/{id}`
-
-Problemas actuales: usa `@Controller`, el POST no declara `@RequestBody` y el PUT espera `@PathVariable` aunque la ruta no contiene `/{id}`.
-
-`RolesController`:
-
-- `GET /roles`
-- `GET /roles/{id}`
-- `POST /roles`
-- `PUT /roles/{id}`
-- `DELETE /roles/{id}`
-
-`ServiciosController`:
-
-- `GET /api/servicios`
-- `GET /api/servicios/estado`
-- `GET /api/servicios/{id}`
-- `POST /api/servicios`
-- `PUT /api/servicios/{id}`
-- `DELETE /api/servicios/{id}`
-
-Problema actual: el DELETE comprueba la existencia despues de intentar eliminar.
-
-`usuariosController`:
-
-- `GET /api/usuarios`
-- `GET /api/usuarios/{id}`
-- `POST /api/usuarios`
-- `PUT /api/usuarios/{id}`
-- `DELETE /api/usuarios/{id}`
-- `GET /api/usuarios/findNombres/{nombres}`
-
-Problema actual: el PUT declara `{id}` pero usa el ID del cuerpo.
-
-## Configuracion
-
-Archivo: `peluqueria-backend/src/main/resources/application.properties`
+Configuración actual en `application.properties`:
 
 ```properties
 spring.application.name=peluqueria-adso
@@ -638,54 +344,121 @@ spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-Archivo `pom.xml`:
+No publicar credenciales ni agregar secretos reales al código.
 
-- Spring Boot `4.1.1`.
-- Java `21`.
-- Spring Actuator.
-- Spring Data JPA.
-- Spring Web MVC.
-- DevTools.
-- MySQL Connector/J.
-- Tomcat provided.
-- Dependencias de prueba JPA y Web MVC.
+## 7. Entidades y reglas funcionales
 
-## Prueba existente
+### Citas
 
-Archivo: `PeluqueriaAdsoApplicationTests.java`
+`CitasEntity` contiene:
 
-Solo contiene una prueba `contextLoads()` con `@SpringBootTest`. No cubre endpoints, repositorios, autenticacion, seguridad, disponibilidad, frontend ni persistencia funcional.
+- `id`
+- `idCliente`
+- `idEmpleado`
+- `idServicio`
+- `fecha`
+- `hora`
+- `estado`
+- `observaciones`
 
-## Riesgos y limitaciones conocidas
+La lógica de disponibilidad puede considerar:
 
-- Login frontend simulado y desconectado de `/api/auth/login`.
-- El usuario puede escoger libremente `ADMIN`.
-- No hay autorizacion real de endpoints.
-- Passwords sin hashing.
-- No se validan completamente IDs relacionados.
-- `idCliente` fijo en el frontend.
-- Conversion incompleta de servicios y horarios.
-- El carrito no envia necesariamente todos los servicios seleccionados.
-- Catalogos estaticos duplicados.
-- Registro modal e independiente tienen comportamientos diferentes.
-- Fallback visual no persiste citas.
-- Panel administrativo sin proteccion real.
-- Pantallas de empleados y dias libres vacias.
-- Scripts `cliente.js` y `admin.js` vacios.
-- CORS permite cualquier origen y cualquier header.
-- `ddl-auto=update` modifica automaticamente el esquema.
-- Algunas consultas JPQL o firmas de controladores requieren revision.
-- Las librerias minificadas y las imagenes son recursos externos/binarios, no logica propia.
+- Día libre aprobado.
+- Empleado activo.
+- Horario laboral.
+- Turno ocupado.
+- Estado de la cita.
 
-## Regla final
+### Días libres
 
-Cuando recibas una nueva tarea sobre este proyecto, responde y trabaja con este orden:
+`DiasLibresEntity` contiene:
 
-1. Diagnostico del flujo real.
+- `id`
+- `idEmpleado`
+- `fecha`
+- `motivo`
+- `estado`
+
+### Empleados
+
+`EmpleadosEntity` contiene, entre otros:
+
+- `id`
+- `idUsuario`
+- `especialidades`
+- `telefono`
+- `horaEntrada`
+- `horaSalida`
+- `activo`
+- `estado`
+
+Verificar siempre cuál de `activo` o `estado` utiliza realmente cada operación.
+
+### Servicios
+
+`ServiciosEntity` contiene:
+
+- `id`
+- `nombre`
+- `descripcion`
+- `precio`
+- `precioPromocion`
+- `duracionMinutos`
+- `estado`
+
+### Usuarios y contraseñas
+
+`UsuariosEntity` contiene:
+
+- `id`
+- `nombre`
+- `apellido`
+- `identification`
+- `correo`
+- `user`
+- `password`
+- `id_roles`
+
+La contraseña es información sensible. No mostrarla, registrarla ni devolverla innecesariamente.
+
+## 8. Limitaciones y riesgos conocidos
+
+- La autenticación frontend depende de `localStorage` y debe contrastarse con `/api/auth/login`.
+- No asumir autorización real basada en el rol visual.
+- Las contraseñas deben considerarse almacenadas sin hashing hasta comprobar lo contrario.
+- Hay catálogos estáticos y catálogos consumidos desde la API; no confundirlos.
+- El frontend y backend pueden tener contratos distintos en nombres de campos, rutas o firmas.
+- CORS debe revisarse ante errores entre los puertos 3000 y 8080.
+- `ddl-auto=update` modifica automáticamente el esquema de la base de datos.
+- Las consultas JPQL deben utilizar propiedades Java, no necesariamente nombres físicos de columnas.
+- Las pantallas administrativas deben comprobar su protección real; una redirección frontend no es seguridad.
+- No editar `target`.
+
+## 9. Reglas obligatorias para futuras tareas
+
+Antes de modificar:
+
+1. Revisar el estado de Git y la rama actual.
+2. Confirmar si el archivo tiene cambios locales.
+3. Leer el archivo y sus dependencias inmediatas.
+4. Identificar la capa responsable: frontend, `server.js`, controlador, servicio, repositorio, entidad, configuración o base de datos.
+5. Confirmar el contrato entre frontend y backend.
+6. No inventar endpoints, campos, roles, permisos o relaciones.
+7. No sobrescribir cambios locales del usuario.
+8. Mantener exactamente el nombre `peluqueria-FrondEnd`.
+9. No modificar imágenes ni librerías de terceros sin solicitud.
+10. Aplicar cambios quirúrgicos y relacionados únicamente con la tarea.
+11. Ejecutar la validación más cercana disponible.
+12. Informar archivos afectados, comportamiento cambiado, validación, resultados y limitaciones.
+
+Toda respuesta técnica debe seguir este orden:
+
+1. Diagnóstico del flujo real.
 2. Archivo o archivos responsables.
-3. Variables, clases, funciones o endpoints relacionados.
-4. Cambio minimo necesario.
-5. Validacion ejecutada.
-6. Riesgos o limitaciones restantes.
+3. Variables, clases, funciones y endpoints relacionados.
+4. Diferencia entre el comportamiento actual y el esperado.
+5. Cambio mínimo necesario.
+6. Validación ejecutada.
+7. Riesgos y limitaciones restantes.
 
-Mantén separadas las capas: `server.js` sirve archivos, el frontend consume HTTP, los controladores exponen rutas, los servicios contienen logica, los repositorios acceden a JPA y las entidades representan tablas.
+No confundir una pantalla visual con una funcionalidad persistida. No asumir que `localStorage` representa autenticación segura. No ejecutar commits, migraciones, reinstalaciones, cambios de rama ni modificaciones de base de datos sin autorización explícita.

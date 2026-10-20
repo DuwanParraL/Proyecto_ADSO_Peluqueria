@@ -32,6 +32,9 @@ public class EmpleadosEntity {
     @Column (name = "horaSalida", nullable = false)
     private LocalTime horaSalida = LocalTime.of(17, 0);
 
+    @Column (name = "estado", length = 50)
+    private String estado = "ACTIVO";
+
     @Column (name = "activo", nullable = false)
     private Boolean activo = true;
 
@@ -81,6 +84,14 @@ public class EmpleadosEntity {
 
     public void setHoraSalida(LocalTime horaSalida) {
         this.horaSalida = horaSalida;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public Boolean getActivo() {

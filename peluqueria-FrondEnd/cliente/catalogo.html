@@ -3,81 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peluquería - Catálogo de Servicios</title>
+  <title>URBAN LOOK - Catálogo de Servicios</title>
   <link rel="stylesheet" href="../Librerias/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/estilos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body {
+      background: linear-gradient(rgba(8, 8, 10, 0.95), rgba(8, 8, 10, 0.95)), url('../img/fondo-barberia.jpg') center/cover no-repeat fixed;
+      min-height: 100vh;
+      color: #fff;
+    }
+  </style>
 </head>
-<body class="bg-light">
+<body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="../index.html">URBAN <span class="text-warning">LOOK</span></a>
-      <div class="d-flex align-items-center">
-        <a href="../index.html" class="btn btn-outline-secondary btn-sm me-2">Inicio</a>
-        <a href="./agendar.html" class="btn btn-warning btn-sm me-2 fw-bold text-dark">Agendar Cita</a>
-        <button onclick="cerrarSesion()" class="btn btn-outline-danger btn-sm">Salir</button>
+  <!-- Barra Superior -->
+  <header class="top-header">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="../index.html" class="logo-brand">
+        URBAN <span>LOOK</span>
+      </a>
+      <div class="d-flex align-items-center gap-3">
+        <span id="user-greeting" class="text-warning small d-none d-sm-inline"></span>
+        <a href="./agendar.html" class="btn btn-warning btn-sm fw-bold">
+          <i class="bi bi-calendar-plus me-1"></i> Agendar Cita
+        </a>
+        <a href="../index.html" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-house me-1"></i> Inicio
+        </a>
+        <button onclick="cerrarSesion()" class="btn btn-outline-danger btn-sm">
+          <i class="bi bi-box-arrow-right me-1"></i> Salir
+        </button>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <header class="py-5 bg-white border-bottom text-center">
+  <header class="py-5 text-center">
     <div class="container">
-      <h1 class="fw-bold">Nuestros Cortes y Servicios</h1>
+      <h1 class="fw-bold section-header-title mb-2">Nuestros Cortes y Servicios</h1>
       <p class="lead text-muted">Selecciona tu estilo preferido y agenda tu turno con nuestros barberos expertos.</p>
     </div>
   </header>
 
-  <main class="container my-5">
-    <div class="row g-4">
-      <!-- Tarjeta 1 (Con oferta) -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm border-0 rounded-3">
-          <div class="position-absolute top-0 end-0 bg-warning text-dark px-3 py-1 rounded-bl fw-bold">15% OFF</div>
-          <div class="card-body p-4 d-flex flex-column">
-            <h4 class="card-title fw-bold">Corte Clásico + Barba</h4>
-            <p class="card-text text-muted flex-grow-1">Perfilado con navaja, toalla caliente y lavado con productos prémium.</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <div>
-                <span class="text-decoration-line-through text-muted small">$35.000</span>
-                <span class="fs-4 fw-bold text-success d-block">$29.750</span>
-              </div>
-              <a href="./agendar.html?servicio=1" class="btn btn-dark">Agendar</a>
-            </div>
-          </div>
+  <main class="container mb-5">
+    <!-- Contenedor dinámico de servicios -->
+    <div class="row g-4" id="catalogo-servicios-container">
+      <div class="col-12 text-center py-5">
+        <div class="spinner-border text-warning" role="status">
+          <span class="visually-hidden">Cargando catálogo...</span>
         </div>
-      </div>
-
-      <!-- Tarjeta 2 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm border-0 rounded-3">
-          <div class="card-body p-4 d-flex flex-column">
-            <h4 class="card-title fw-bold">Fade / Degradado</h4>
-            <p class="card-text text-muted flex-grow-1">Corte moderno de transición milimétrica con tijera y máquina.</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <span class="fs-4 fw-bold text-dark">$22.000</span>
-              <a href="./agendar.html?servicio=2" class="btn btn-dark">Agendar</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tarjeta 3 -->
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm border-0 rounded-3">
-          <div class="card-body p-4 d-flex flex-column">
-            <h4 class="card-title fw-bold">Tinte / Camuflaje de Canas</h4>
-            <p class="card-text text-muted flex-grow-1">Aplicación de color natural con tratamiento hidratante capilar.</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <span class="fs-4 fw-bold text-dark">$45.000</span>
-              <a href="./agendar.html?servicio=3" class="btn btn-dark">Agendar</a>
-            </div>
-          </div>
-        </div>
+        <p class="text-muted mt-2">Cargando servicios disponibles...</p>
       </div>
     </div>
   </main>
 
   <script src="../Librerias/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../JavaScript/api.js"></script>
   <script src="../JavaScript/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Mostrar saludo de usuario si está autenticado
+      const sesion = window.obtenerUsuarioSesion ? window.obtenerUsuarioSesion() : null;
+      const greetingEl = document.getElementById('user-greeting');
+      if (sesion && greetingEl) {
+        greetingEl.textContent = `Hola, ${sesion.nombreCompleto || sesion.usuario}`;
+      }
+
+      await cargarCatalogoServicios();
+    });
+
+    async function cargarCatalogoServicios() {
+      const container = document.getElementById('catalogo-servicios-container');
+      try {
+        const servicios = await window.UrbanLookAPI.obtenerServiciosActivos();
+        if (servicios && Array.isArray(servicios) && servicios.length > 0) {
+          renderizarServicios(servicios);
+          return;
+        }
+      } catch (err) {
+        console.warn('No se pudieron obtener servicios del backend, usando catálogo base.', err);
+      }
+
+      // Catálogo base de respaldo si la base de datos no tiene filas
+      renderizarServicios([
+        { id: 1, nombre: 'Corte Clásico + Barba', descripcion: 'Perfilado con navaja, toalla caliente y lavado con productos prémium.', precio: 35000, precioPromocion: 29750, duracionMinutos: 60 },
+        { id: 2, nombre: 'Fade / Degradado', descripcion: 'Corte moderno de transición milimétrica con tijera y máquina.', precio: 22000, precioPromocion: 22000, duracionMinutos: 45 },
+        { id: 3, nombre: 'Rapado Uniforme', descripcion: 'Ejecutado con máquina para un acabado limpio y parejo. Incluye cerquillo.', precio: 18000, precioPromocion: 18000, duracionMinutos: 20 },
+        { id: 4, nombre: 'Corte Niño (1 a 12 años)', descripcion: 'Atención con paciencia y técnicas adaptadas para los más pequeños.', precio: 20000, precioPromocion: 20000, duracionMinutos: 30 },
+        { id: 5, nombre: 'Perfilado de Barba Spa', descripcion: 'Recorte de volumen, alineado a navaja, doble toalla caliente con aceites.', precio: 18000, precioPromocion: 18000, duracionMinutos: 30 },
+        { id: 6, nombre: 'Diseño de Cejas', descripcion: 'Limpieza y perfilado natural con navaja y tijera.', precio: 12000, precioPromocion: 12000, duracionMinutos: 15 },
+        { id: 7, nombre: 'Facial Vapor de Ozono', descripcion: 'Apertura de poros con vapor ozonizado, exfoliación y mascarilla de carbón.', precio: 35000, precioPromocion: 35000, duracionMinutos: 35 },
+        { id: 8, nombre: 'Alisado Capilar Keratina', descripcion: 'Tratamiento técnico anti-frizz para controlar cabellos rebeldes y ondulados.', precio: 57000, precioPromocion: 57000, duracionMinutos: 60 },
+        { id: 9, nombre: 'Tinte / Camuflaje de Canas', descripcion: 'Aplicación de color natural con tratamiento hidratante capilar.', precio: 45000, precioPromocion: 45000, duracionMinutos: 30 }
+      ]);
+    }
+
+    function renderizarServicios(lista) {
+      const container = document.getElementById('catalogo-servicios-container');
+      container.innerHTML = '';
+
+      lista.forEach(item => {
+        const tienePromo = item.precioPromocion && item.precioPromocion < item.precio;
+        const precioFinal = tienePromo ? item.precioPromocion : item.precio;
+        const formatoPrecio = Number(precioFinal).toLocaleString('es-CO');
+        const formatoOld = tienePromo ? `$${Number(item.precio).toLocaleString('es-CO')}` : '';
+
+        const col = document.createElement('div');
+        col.className = 'col-12 col-md-6 col-lg-4';
+        col.innerHTML = `
+          <div class="glass-box h-100 p-4 d-flex flex-column position-relative">
+            ${tienePromo ? '<span class="service-badge-promo">PROMO</span>' : ''}
+            <h4 class="fw-bold text-white mb-2">${item.nombre}</h4>
+            <div class="text-warning small mb-3">
+              <i class="bi bi-clock me-1"></i> ${item.duracionMinutos || 30} min
+            </div>
+            <p class="text-muted flex-grow-1 small">${item.descripcion || 'Servicio profesional de barbería.'}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary">
+              <div>
+                ${tienePromo ? `<span class="text-decoration-line-through text-muted small d-block">${formatoOld}</span>` : ''}
+                <span class="fs-4 fw-bold text-warning">$${formatoPrecio}</span>
+              </div>
+              <a href="./agendar.html?servicio=${item.id}" class="btn btn-gold btn-sm px-3">
+                <i class="bi bi-calendar2-check me-1"></i> Agendar
+              </a>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+  </script>
 </body>
 </html>
